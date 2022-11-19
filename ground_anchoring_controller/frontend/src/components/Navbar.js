@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 const Navbar = () => {
+
+  clearThelocalStorage=()=>{
+    localStorage.clear();
+  }
   return (
     <div>
       
@@ -11,7 +15,7 @@ const Navbar = () => {
         <h1>Optimization of the ground wall anchoring</h1>
         <div className="links">
           {/* <Link to="/">Home</Link> */}
-          <Link variant="primary" to="/" style={{ 
+          <Link variant="primary" to="/" onClick={clearThelocalStorage} style={{ 
             color: 'white', 
             backgroundColor: '#0080FF',
             borderRadius: '8px' 

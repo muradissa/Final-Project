@@ -21,10 +21,10 @@ const style = {
   p: 4,
 };
 function simulateNetworkRequest() {
-    return new Promise((resolve) => setTimeout(resolve, 2000));
+    return new Promise((resolve) => setTimeout(resolve, 500));
   }
 
-let anchorsMap = new Map()
+let anchorsMap = new Map();
 let x1 = 0 , y1 = 0;
 
 const AnchorsPlaces = () => {
@@ -40,8 +40,6 @@ const AnchorsPlaces = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-   
 
     const anchorssRequest =() =>{
         const requestOptions = {
@@ -75,6 +73,7 @@ const AnchorsPlaces = () => {
                 simulateNetworkRequest().then(() => {
                     setLoading(false);
                     //convertMapToJsonString();
+                    localStorage.setItem("data2",convertMapToJsonString());
                     anchorssRequest();
                     navigate('/finalResult');
                 });
@@ -85,13 +84,9 @@ const AnchorsPlaces = () => {
         }
     }, [isLoading]);
 
-
     const handleClick = () => {    
         setLoading(true);
     };
-
-    
-
 
     const handleClickNext = ( ) => {
         if(checkAnchorPlacing() ){  
@@ -134,11 +129,9 @@ const AnchorsPlaces = () => {
         }             
     };
 
-
     function handleChangeX(event) {     
         x1 = parseFloat (event.target.value);  
     }
-
 
     function handleChangeY(event) {      
         y1 = parseFloat (event.target.value);

@@ -119,14 +119,14 @@ h2{
 td{
   font-size: 10px;
   max-height: 4px;
-  max-width: 5px;
-  color: blue;
+  /* max-width: 10px; */
+  color: brown;
   background: brown;
   /* overflow-x: hidden; */
 }
 tr{
   max-height: 5px;
-  max-width: 10px;
+  /* max-width: 10px; */
 }
 
 /* *{

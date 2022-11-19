@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal';
 
 
 function simulateNetworkRequest() {
-    return new Promise((resolve) => setTimeout(resolve, 1000));
+    return new Promise((resolve) => setTimeout(resolve, 500));
 }
 const Parameters = () => {
     
@@ -68,7 +68,7 @@ const Parameters = () => {
         console.log(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 100);
         if(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 100 && 
             wallPara.height <= 30 && wallPara.height > 0 &&
-            wallPara.width <= 200 && wallPara.width > 0 &&
+            wallPara.width <= 150 && wallPara.width > 0 &&
             wallPara.angle >= 90 && wallPara.angle <= 150){
                 wallParametersRequest();
                 return true;        
@@ -85,7 +85,12 @@ const Parameters = () => {
                 console.log(anchorsPara);
                 console.log(wallPara);
                 if(checkValues())
-                    navigate('/anchorsPlaces');
+                    if(enterTheAnchorsManaul()){
+                        navigate('/anchorsPlaces');
+                    }else{
+                        navigate('/finalResult');
+                    }
+                    
                 else
                 console.log("Wrong parameters");
             });
@@ -126,6 +131,16 @@ const Parameters = () => {
     function handleChangeAngel(event) {
         wallPara.angle = parseFloat (event.target.value);
         localStorage.setItem("angle", wallPara.angle);  
+    }
+
+    const enterTheAnchorsManaul = () =>{
+       
+        if(localStorage.getItem("strategyType") === "1"){
+            return true;
+        }else{
+            return false;
+        }
+
     }
     
 
@@ -186,7 +201,7 @@ const Parameters = () => {
                         <div className="col-12">     
                             <InputGroup className="mb-3" >
                                 <InputGroup.Text id="basic-addon7">Width ( m )</InputGroup.Text>
-                                <Form.Control  type="number" placeholder="maximum 200m" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeWidth}/>
+                                <Form.Control  type="number" placeholder="maximum 150m" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeWidth}/>
                             </InputGroup>
                         </div>
                     </div>
@@ -227,7 +242,7 @@ const Parameters = () => {
                         * The maximum height is 30m
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
-                        * The maximum width is 200m
+                        * The maximum width is 150m
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
                         * Angle should be betwen 90-150
