@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreatAnchorsView, CreatWallView, main
+from .views import CreatAnchorsView, CreatWallView, EnterParametersView, main
 from .views import AnchorView,WallView
 
 urlpatterns = [
@@ -8,7 +8,7 @@ urlpatterns = [
     path('wall', WallView.as_view()),
     path('create-wall',CreatWallView.as_view()),
     path('create-anchors',CreatAnchorsView.as_view()),
-    path('enter-types',CreatWallView.as_view()),
-    path('start',CreatWallView.as_view()),
+    path('enter-parameter',EnterParametersView.as_view()),
+    #path('start',CreatWallView.as_view()),
    
 ]

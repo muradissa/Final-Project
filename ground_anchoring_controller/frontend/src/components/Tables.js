@@ -6,8 +6,13 @@ const Tables = () => {
     const height2 = localStorage.getItem("height");
     const width2 = localStorage.getItem("width");
     const rowSequre = (width,height) =>{
-      anchorsMap =new Map(Object.entries(JSON.parse(localStorage.getItem("data2"))))
-      anchorsArray= Array.from(anchorsMap);
+      if (localStorage.getItem("data2") !== null && localStorage.getItem("data2") !== undefined){
+        anchorsMap =new Map(Object.entries(JSON.parse(localStorage.getItem("data2"))))
+        anchorsArray= Array.from(anchorsMap);
+      }else{
+
+      }
+      
       let content2 = [];
       for(let y = height2 ; 0 < y; y--){
         let content = [];
@@ -21,9 +26,11 @@ const Tables = () => {
     }
 
     const fillTheSquare =(x,y) =>{
+      if (anchorsArray === null || anchorsArray === undefined){
+        return <td>x</td>
+      }
       const exist = anchorsArray.filter(item => 
         item[1].x === x && item[1].y === y
-        
         );
       const exist1 = anchorsArray.filter(item => 
         ( item[1].x-1 == x &&  item[1].y == y)||( item[1].x+1 == x &&  item[1].y == y)||

@@ -22,7 +22,7 @@ const Home = () => {
             localStorage.setItem("dimensionalType", dimensionalType);
             localStorage.setItem("optimizationType", optimizationType);
             fillTypes();
-            
+            typeParametersRequest();
             navigate('/parameters');
         });
         }
@@ -58,70 +58,85 @@ const Home = () => {
             localStorage.setItem("dimensionalType2", "2");
         }             
     }
+    const typeParametersRequest =() =>{
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            strategyType: strategyType,         
+            dimensionalType: dimensionalType,
+            optimizationType: optimizationType,
+            
+          }),
+        };
+        fetch("/api/enter-parameter", requestOptions)
+          .then((response) => response.json())
+          .then((data) => console.log(data));
+    }
   
-  return (
-    <div className="home">
-        <div className="radio-btn-container" >
-            <div className="radio-btn" onClick={() => { setOptimizationType("1");}} style={{
-                background: optimizationType === "1" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "1"}/>
-                No optimization
+    return (
+        <div className="home">
+            <div className="radio-btn-container" >
+                <div className="radio-btn" onClick={() => { setOptimizationType("1");}} style={{
+                    background: optimizationType === "1" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "1"}/>
+                    No optimization
+                </div>
+                <div className="radio-btn" onClick={() => {setOptimizationType("2"); }} style={{
+                    background: optimizationType === "2" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "2"} />
+                    Gradient descent 
+                </div>
+                <div className="radio-btn" onClick={() => { setOptimizationType("3");}} style={{
+                    background: optimizationType === "3" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "3"}/>
+                    Q-learning
+                </div>
+                <div className="radio-btn" onClick={() => { setOptimizationType("4");}} style={{
+                    background: optimizationType === "4" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "4"}/>
+                    Artifical annealing
+                </div>      
             </div>
-            <div className="radio-btn" onClick={() => {setOptimizationType("2"); }} style={{
-                background: optimizationType === "2" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "2"} />
-                Gradient descent 
-            </div>
-            <div className="radio-btn" onClick={() => { setOptimizationType("3");}} style={{
-                background: optimizationType === "3" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "3"}/>
-                Q-learning
-            </div>
-            <div className="radio-btn" onClick={() => { setOptimizationType("4");}} style={{
-                background: optimizationType === "4" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={optimizationType} name="optimizationType" checked={optimizationType === "4"}/>
-                Artifical annealing
-            </div>      
-        </div>
-
-       <div className="radio-btn-container" >
-            <div className="radio-btn" onClick={() => {setStrategyType("1"); }} style={{
-                background: strategyType === "1" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "1"} />
-                Manual
-            </div>
-            <div className="radio-btn" onClick={() => { setStrategyType("2");}} style={{
-                background: strategyType === "2" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "2"}/>
-                Equal dimensions
-            </div>
-            <div className="radio-btn" onClick={() => { setStrategyType("3");}} style={{
-                background: strategyType === "3" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "3"}/>
-                Monte carlo
-            </div>
-        </div>
 
         <div className="radio-btn-container" >
-            <div className="radio-btn" onClick={() => {setDimensionalType("1"); }} style={{
-                background: dimensionalType === "1" ? '#0080FF' : '#0891b2'}}>
-                <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "1"} />
-                1 Dimensional 
+                <div className="radio-btn" onClick={() => {setStrategyType("1"); }} style={{
+                    background: strategyType === "1" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "1"} />
+                    Manual
+                </div>
+                <div className="radio-btn" onClick={() => { setStrategyType("2");}} style={{
+                    background: strategyType === "2" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "2"}/>
+                    Equal dimensions
+                </div>
+                <div className="radio-btn" onClick={() => { setStrategyType("3");}} style={{
+                    background: strategyType === "3" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "3"}/>
+                    Monte carlo
+                </div>
             </div>
-            <div className="radio-btn" onClick={() => { setDimensionalType("2");}} style={{
-                background: dimensionalType === "2" ? '#0080FF' : '#1391b2'}}>
-                <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "2"}/>
-                2 Dimensional
+
+            <div className="radio-btn-container" >
+                <div className="radio-btn" onClick={() => {setDimensionalType("1"); }} style={{
+                    background: dimensionalType === "1" ? '#0080FF' : '#0891b2'}}>
+                    <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "1"} />
+                    1 Dimensional 
+                </div>
+                <div className="radio-btn" onClick={() => { setDimensionalType("2");}} style={{
+                    background: dimensionalType === "2" ? '#0080FF' : '#1391b2'}}>
+                    <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "2"}/>
+                    2 Dimensional
+                </div>
+            </div>
+    
+            <div className="btn-container">
+                <Button className="btn-primary"  disabled={isLoading} onClick={!isLoading ? handleClick : null}>
+                {isLoading ? 'Loading…' : 'Click to Start'}
+                </Button>
             </div>
         </div>
-  
-        <div className="btn-container">
-            <Button className="btn-primary"  disabled={isLoading} onClick={!isLoading ? handleClick : null}>
-               {isLoading ? 'Loading…' : 'Click to Start'}
-            </Button>
-        </div>
-    </div>
-  );
+    );
 }
  
 export default Home;

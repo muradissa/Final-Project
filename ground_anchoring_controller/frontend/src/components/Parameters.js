@@ -133,14 +133,12 @@ const Parameters = () => {
         localStorage.setItem("angle", wallPara.angle);  
     }
 
-    const enterTheAnchorsManaul = () =>{
-       
+    const enterTheAnchorsManaul = () =>{      
         if(localStorage.getItem("strategyType") === "1"){
             return true;
         }else{
             return false;
         }
-
     }
     
 
