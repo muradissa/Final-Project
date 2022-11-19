@@ -106,7 +106,7 @@ const Home = () => {
             <div className="radio-btn" onClick={() => {setDimensionalType("1"); }} style={{
                 background: dimensionalType === "1" ? '#0080FF' : '#0891b2'}}>
                 <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "1"} />
-                1 Dimensional
+                1 Dimensional 
             </div>
             <div className="radio-btn" onClick={() => { setDimensionalType("2");}} style={{
                 background: dimensionalType === "2" ? '#0080FF' : '#1391b2'}}>

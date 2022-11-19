@@ -5,7 +5,7 @@ import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 const Navbar = () => {
 
-  clearThelocalStorage=()=>{
+  const clearThelocalStorage=()=>{
     localStorage.clear();
   }
   return (

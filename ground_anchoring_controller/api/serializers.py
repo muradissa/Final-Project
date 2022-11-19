@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Anchor
+from .models import Anchor, Parameters
 from .models import Wall
 
 # code = models.IntegerField(null=False,default=0,unique=True)
@@ -25,6 +25,12 @@ class WallSerializer(serializers.ModelSerializer):
 class CreateWallSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wall
-        fields = ('height','width','angle','number_of_anchors')       
+        fields = ('height','width','angle','number_of_anchors')
+        
+
+class ParametersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parameters
+        fields = ('optimizationType','strategyType','dimensionalType')           
         
    

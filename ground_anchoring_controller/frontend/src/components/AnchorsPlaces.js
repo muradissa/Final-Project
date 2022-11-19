@@ -87,7 +87,7 @@ const AnchorsPlaces = () => {
     const handleClick = () => {    
         setLoading(true);
     };
-
+ //
     const handleClickNext = ( ) => {
         if(checkAnchorPlacing() ){  
             anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1}) 

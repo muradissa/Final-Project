@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import generics,status
-from .serializers import AnchorSerializer,CreateAnchorSerializer,CreateWallSerializer,WallSerializer
+from .serializers import AnchorSerializer,CreateAnchorSerializer,CreateWallSerializer, ParametersSerializer,WallSerializer
 from .models import Anchor ,Wall
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -58,6 +58,18 @@ class CreatWallView(APIView):
 class CreatAnchorsView(APIView):
     
     serializer_class = CreateAnchorSerializer
+    def post(self , request , format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+        
+        print(request.data)
+        
+        return Response("ok", status=status.HTTP_200_OK)
+
+
+class EnterParametersView(APIView):
+    
+    serializer_class = ParametersSerializer
     def post(self , request , format=None):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
