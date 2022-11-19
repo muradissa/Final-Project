@@ -13,10 +13,12 @@ python .\manage.py migrate
 python .\manage.py runserver
 
 # after adding our models update the migrations
+
 python .\manage.py makemigrations
 python .\manage.py migrate
 
 # add frontend 
+
 django-admin startapp frontend
 ⌨ NPM Setup Commands ⌨  => npm i install
 npm init -y
