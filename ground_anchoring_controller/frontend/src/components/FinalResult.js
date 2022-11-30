@@ -4,9 +4,14 @@ import React, { useState,useEffect }  from "react";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tables from './Tables';
+import LoadingDots from './Loading'
+import { Spinner } from 'react-bootstrap';
+//import { MDBSpinner } from 'mdb-react-ui-kit';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 let anchorsMap = new Map()
 let x1 = 0 , y1 = 0;
+let acnhors_data;
 
 const FinalResult = () => {
     
@@ -20,11 +25,33 @@ const FinalResult = () => {
     const [strategyType, setStrategyType] = useState(localStorage.getItem("optimizationType2"));
     const [optimizationType, setOptimizationType] = useState(localStorage.getItem("strategyType2"));
     const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
+    useEffect(() => {
+        
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              
+              
+            }),
+          };
+        fetch("/api/start", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            //acnhors_data= data
+            anchorsMap = new Map(Object.entries(JSON.parse(data)))
+            acnhors_data= Array.from(anchorsMap);
+            setLoading(true)
+                //console.log(data)
+        });
+    },[])
+
 
     return (
       <div className="manually">
             <div className="row">
                 
+           
                 <div className="col-3" >
                     <div style={{
                         padding:'10px',
@@ -50,8 +77,11 @@ const FinalResult = () => {
                     </div>                                                  
                 </div>
                 <div className="col-8 center-Table">
-                    <Tables style={{textAlign:'-webkit-center',}}/>
+                   {  isLoading && (<Tables acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
+                   { !isLoading && <LoadingDots/>}
                 </div>
+                
+                
             </div>      
       </div>
     );

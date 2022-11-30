@@ -60,8 +60,10 @@ const AnchorsPlaces = () => {
 
     const convertMapToJsonString = () => {
         // ✅ Convert to JSON string
+        const values = anchorsMap.values()
+        //console.log()
         const jsonStr = JSON.stringify(Object.fromEntries(anchorsMap));
-        console.log(jsonStr);
+        //console.log(jsonStr);
         return jsonStr ;      
     }
 

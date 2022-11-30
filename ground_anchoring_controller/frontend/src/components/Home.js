@@ -48,14 +48,14 @@ const Home = () => {
         if(num1 == 2){
             localStorage.setItem("strategyType2", "Manually");
         }else if(num2 == 2){           
-            localStorage.setItem("strategyType2", "Equal dimensions");
+            localStorage.setItem("strategyType2", "Equal distance");
         }else if(num2 == 3){            
-            localStorage.setItem("strategyType2", "Monte carlo");
+            localStorage.setItem("strategyType2", "Monte Carlo");
         }
         if(num3 == 1){
-            localStorage.setItem("dimensionalType2", "1");
-        }else if(num3 == 2){           
             localStorage.setItem("dimensionalType2", "2");
+        }else if(num3 == 2){           
+            localStorage.setItem("dimensionalType2", "3");
         }             
     }
     const typeParametersRequest =() =>{
@@ -103,17 +103,17 @@ const Home = () => {
                 <div className="radio-btn" onClick={() => {setStrategyType("1"); }} style={{
                     background: strategyType === "1" ? '#0080FF' : '#0891b2'}}>
                     <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "1"} />
-                    Manual
+                    Manually
                 </div>
                 <div className="radio-btn" onClick={() => { setStrategyType("2");}} style={{
                     background: strategyType === "2" ? '#0080FF' : '#0891b2'}}>
                     <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "2"}/>
-                    Equal dimensions
+                    Equal distance
                 </div>
                 <div className="radio-btn" onClick={() => { setStrategyType("3");}} style={{
                     background: strategyType === "3" ? '#0080FF' : '#0891b2'}}>
                     <input type="radio" value={strategyType} name="strategyType" checked={strategyType === "3"}/>
-                    Monte carlo
+                    Monte Carlo
                 </div>
             </div>
 
@@ -121,12 +121,12 @@ const Home = () => {
                 <div className="radio-btn" onClick={() => {setDimensionalType("1"); }} style={{
                     background: dimensionalType === "1" ? '#0080FF' : '#0891b2'}}>
                     <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "1"} />
-                    1 Dimensional 
+                    2 Dimensional 
                 </div>
                 <div className="radio-btn" onClick={() => { setDimensionalType("2");}} style={{
                     background: dimensionalType === "2" ? '#0080FF' : '#1391b2'}}>
                     <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "2"}/>
-                    2 Dimensional
+                    3 Dimensional
                 </div>
             </div>
     
