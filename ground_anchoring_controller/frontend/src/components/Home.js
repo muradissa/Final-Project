@@ -45,7 +45,7 @@ const Home = () => {
         }else if(num1 == 4){           
             localStorage.setItem("optimizationType2", "Artifical annealing"); 
         }      
-        if(num1 == 2){
+        if(num1 == 1){
             localStorage.setItem("strategyType2", "Manually");
         }else if(num2 == 2){           
             localStorage.setItem("strategyType2", "Equal distance");

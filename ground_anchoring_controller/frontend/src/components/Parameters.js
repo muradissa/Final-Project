@@ -173,30 +173,34 @@ const Parameters = () => {
                         <Form.Control type="number" placeholder="0-100" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeNumberOfAnchors} />
                     </InputGroup>
                     <div className="row ">  
-                        <div className="col-12 col-sm-12 col-lg-12  ">  
+                        
+
+
+                        <div className="col-12 col-sm-12 col-lg-12">  
                             <InputGroup className="mb-3" >
-                                <InputGroup.Text id="basic-addon2">V</InputGroup.Text>
-                                <Form.Control  placeholder="0.1" value="0.1" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeV} />
+                                <InputGroup.Text id="basic-addon3">C : sand is liquidish</InputGroup.Text>
+                                <Form.Control placeholder="1" value="1" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeC} />
                             </InputGroup>
                         </div>
                         <div className="col-12 col-sm-12 col-lg-12">  
                             <InputGroup className="mb-3" >
-                                <InputGroup.Text id="basic-addon3">C</InputGroup.Text>
-                                <Form.Control placeholder="1" value="1" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeC} />
+                                <InputGroup.Text id="basic-addon4">E : young modulus</InputGroup.Text>
+                                <Form.Control placeholder="30" value="30" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeE}/>
                             </InputGroup>
                         </div>
                     </div>
                     <div className="row justify-content-sm-between"> 
-                        <div className="col-12 col-sm-12 col-lg-12">  
-                            <InputGroup className="mb-3" >
-                                <InputGroup.Text id="basic-addon4">E</InputGroup.Text>
-                                <Form.Control placeholder="30" value="30" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeE}/>
-                            </InputGroup>
-                        </div>
+                        
                         <div className="col-12 col-sm-12 col-lg-12">  
                             <InputGroup className="mb-3">
-                                <InputGroup.Text id="basic-addon5">I</InputGroup.Text>
+                                <InputGroup.Text id="basic-addon5">I : second moment</InputGroup.Text>
                                 <Form.Control placeholder="104" value="104" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeI}/>
+                            </InputGroup>
+                        </div>
+                        <div className="col-12 col-sm-12 col-lg-12  ">  
+                            <InputGroup className="mb-3" >
+                                <InputGroup.Text id="basic-addon2">V : poisson ratio</InputGroup.Text>
+                                <Form.Control  placeholder="0.1" value="0.1" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeV} />
                             </InputGroup>
                         </div>
                     </div>

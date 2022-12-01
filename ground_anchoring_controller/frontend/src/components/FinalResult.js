@@ -24,8 +24,8 @@ const FinalResult = () => {
     const height = localStorage.getItem("height");
     const width = localStorage.getItem("width");
     const angle = localStorage.getItem("angle");
-    const [strategyType, setStrategyType] = useState(localStorage.getItem("optimizationType2"));
-    const [optimizationType, setOptimizationType] = useState(localStorage.getItem("strategyType2"));
+    const [strategyType, setStrategyType] = useState(localStorage.getItem("strategyType2"));
+    const [optimizationType, setOptimizationType] = useState(localStorage.getItem("optimizationType2"));
     const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
     const [quality, setQuality] = useState("0");
     
@@ -88,10 +88,12 @@ const FinalResult = () => {
                                 <h5>Width : {width}m</h5> 
                             }
                             <h5>Angle : {angle}<sup style={{color:'white'}}>o</sup></h5> 
-                            <h5>E : 30 </h5>
-                            <h5>I : 104 </h5> 
-                            <h5>V : 0.1 </h5>
-                            <h5>C : 1 </h5>    
+                            
+                            <h5>I , second moment : 104 </h5>   
+                            <h5>E , young modulus : 30 </h5>
+                            <h5>C , sand is liquidish : 1 </h5>
+                            <h5>V , poisson ratio 0.1 </h5>
+                              
                     </div>
                     <div className='row' style={{paddingTop:'20px',textAlign:'center',}}>
                         <h3 style={{color:'white'}}>Cost : <b style={{color:'white'}}>{numbersOfAnchors*2178} $</b></h3>
