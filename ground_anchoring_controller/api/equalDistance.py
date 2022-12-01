@@ -1,4 +1,5 @@
 
+from .wallPresure import quality
 
 def createEqualDistance(height,width,numberOfAnchors):
     
@@ -14,7 +15,7 @@ def createEqualDistance(height,width,numberOfAnchors):
         else:
             x1 +=5
         id+=1
-        
-    return anchors
+    quality_1 = quality(height , width,anchors)   
+    return anchors ,quality_1
         
      

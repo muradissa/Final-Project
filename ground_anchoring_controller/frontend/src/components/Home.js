@@ -53,9 +53,9 @@ const Home = () => {
             localStorage.setItem("strategyType2", "Monte Carlo");
         }
         if(num3 == 1){
-            localStorage.setItem("dimensionalType2", "2");
+            localStorage.setItem("dimensionalType2", "1");
         }else if(num3 == 2){           
-            localStorage.setItem("dimensionalType2", "3");
+            localStorage.setItem("dimensionalType2", "2");
         }             
     }
     const typeParametersRequest =() =>{
@@ -121,12 +121,12 @@ const Home = () => {
                 <div className="radio-btn" onClick={() => {setDimensionalType("1"); }} style={{
                     background: dimensionalType === "1" ? '#0080FF' : '#0891b2'}}>
                     <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "1"} />
-                    2 Dimensional 
+                    1 Dimensional 
                 </div>
                 <div className="radio-btn" onClick={() => { setDimensionalType("2");}} style={{
                     background: dimensionalType === "2" ? '#0080FF' : '#1391b2'}}>
                     <input type="radio" value={dimensionalType} name="dimensionalType" checked={dimensionalType === "2"}/>
-                    3 Dimensional
+                    2 Dimensional
                 </div>
             </div>
     

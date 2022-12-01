@@ -4,6 +4,7 @@ import React, { useState,useEffect }  from "react";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tables from './Tables';
+import Table1d from './Table1d';
 import LoadingDots from './Loading'
 import { Spinner } from 'react-bootstrap';
 //import { MDBSpinner } from 'mdb-react-ui-kit';
@@ -17,6 +18,7 @@ const FinalResult = () => {
     
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
+    const [dimensional2d, setDimensional2d] = useState(false);
     const [anchorNumber, setAnchorNumber] = useState(1);
     const [numbersOfAnchors, setNumbersOfAnchors] = useState(localStorage.getItem("numbersOfAnchors"));
     const height = localStorage.getItem("height");
@@ -25,14 +27,17 @@ const FinalResult = () => {
     const [strategyType, setStrategyType] = useState(localStorage.getItem("optimizationType2"));
     const [optimizationType, setOptimizationType] = useState(localStorage.getItem("strategyType2"));
     const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
-    useEffect(() => {
-        
+    const [quality, setQuality] = useState("0");
+    
+    
+    useEffect(() => {  
+        if(dimensionalType == '2'){
+            setDimensional2d(true)
+        }    
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              
-              
             }),
           };
         fetch("/api/start", requestOptions)
@@ -44,14 +49,29 @@ const FinalResult = () => {
             setLoading(true)
                 //console.log(data)
         });
+        
     },[])
+    useEffect(() => {
+        if(isLoading){
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({       
+                }),
+            };
+            fetch("/api/quality", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                setQuality(data)
+            });
+        }      
+    },[isLoading])
 
 
     return (
       <div className="manually">
             <div className="row">
-                
-           
                 <div className="col-3" >
                     <div style={{
                         padding:'10px',
@@ -64,7 +84,9 @@ const FinalResult = () => {
                             <h5>Strategy : {strategyType}</h5>
                             <h5>Dimensional : {dimensionalType}</h5>    
                             <h5>Heigth : {height}m</h5>
-                            <h5>Width : {width}m</h5>  
+                            {dimensional2d && 
+                                <h5>Width : {width}m</h5> 
+                            }
                             <h5>Angle : {angle}<sup style={{color:'white'}}>o</sup></h5> 
                             <h5>E : 30 </h5>
                             <h5>I : 104 </h5> 
@@ -73,12 +95,15 @@ const FinalResult = () => {
                     </div>
                     <div className='row' style={{paddingTop:'20px',textAlign:'center',}}>
                         <h3 style={{color:'white'}}>Cost : <b style={{color:'white'}}>{numbersOfAnchors*2178} $</b></h3>
-                        <h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>90 %</b></h3>           
+                        { !isLoading &&<h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>Loading..</b></h3>}
+                        { isLoading && <h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>{quality} %</b></h3>}     
                     </div>                                                  
                 </div>
                 <div className="col-8 center-Table">
-                   {  isLoading && (<Tables acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
-                   { !isLoading && <LoadingDots/>}
+                    {  dimensional2d && (<Tables acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
+                    { !isLoading && <LoadingDots/>}
+                    { !dimensional2d && isLoading &&
+                        <Table1d acnhors_data={acnhors_data} style={{textAlign:'-webkit-center'}}/>}
                 </div>
                 
                 

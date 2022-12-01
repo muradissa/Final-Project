@@ -24,11 +24,11 @@
 }
 .navbar:hover{
   
-  border-bottom: 5px solid #8d2b48; 
+  border-bottom: 5px solid #0080FF; 
 }
 .navbar h1 {
   color: white;
-  text-shadow: 2px 1px 2px #ff5e49;
+  text-shadow: 2px 1px 2px sienna;
 }
 .navbar .links {
   margin-left: auto;
@@ -120,8 +120,8 @@ td{
   font-size: 10px;
   max-height: 4px;
   /* max-width: 10px; */
-  color: brown;
-  background: brown;
+  color: sienna;
+  background: sienna;
   /* overflow-x: hidden; */
 }
 tr{

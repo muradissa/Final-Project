@@ -31,8 +31,10 @@ const AnchorsPlaces = () => {
     
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
+    const [dimensional2d, setDimensional2d] = useState(false);
     const [anchorNumber, setAnchorNumber] = useState(1);
     const [numbersOfAnchors, setNumbersOfAnchors] = useState(localStorage.getItem("numbersOfAnchors"));
+    const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
     const height = localStorage.getItem("height");
     const width = localStorage.getItem("width");
     const angle = localStorage.getItem("angle");
@@ -40,7 +42,11 @@ const AnchorsPlaces = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    useEffect(() => {
+        if(dimensionalType == '2'){
+            setDimensional2d(true)
+        }
+    },[]);
     const anchorssRequest =() =>{
         const requestOptions = {
           method: "POST",
@@ -70,8 +76,12 @@ const AnchorsPlaces = () => {
     useEffect(() => {
         if (isLoading) {
             // if(numbersOfAnchors == anchorsMap.size)
-            if(checkAnchorPlacing() && (anchorsMap.size >= numbersOfAnchors-1)){  
-                anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1}) 
+            if(checkAnchorPlacing() && (anchorsMap.size >= numbersOfAnchors-1)){
+                if(dimensional2d){
+                    anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1})
+                }else{
+                    anchorsMap.set(anchorNumber ,{code:anchorNumber,x:0 , y:y1})
+                } 
                 simulateNetworkRequest().then(() => {
                     setLoading(false);
                     //convertMapToJsonString();
@@ -92,20 +102,27 @@ const AnchorsPlaces = () => {
  //
     const handleClickNext = ( ) => {
         if(checkAnchorPlacing() ){  
-            anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1}) 
+            if(dimensional2d){
+                anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1})
+            }else{
+                anchorsMap.set(anchorNumber ,{code:anchorNumber,x:0 , y:y1})
+            } 
             if(anchorNumber < numbersOfAnchors){ 
                 setAnchorNumber(anchorNumber+1);
             }
-            if(anchorsMap.get(anchorNumber+1) !== undefined){
-                x1 = anchorsMap.get(anchorNumber+1).x;
-                y1 = anchorsMap.get(anchorNumber+1).y;
-                document.getElementById('FormControl1').value = x1;
+            if(anchorsMap.get(anchorNumber+1) !== undefined){         
+                y1 = anchorsMap.get(anchorNumber+1).y;       
                 document.getElementById('FormControl2').value = y1;
+                if(dimensional2d){
+                   x1 = anchorsMap.get(anchorNumber+1).x; 
+                   document.getElementById('FormControl1').value = x1; 
+                }
             }else{
-                
-                document.getElementById('FormControl1').value = 0;
+                if(dimensional2d){
+                    document.getElementById('FormControl1').value = 0;
+                    x1 =0 ;
+                }         
                 document.getElementById('FormControl2').value = 0; 
-                x1 =0 ;
                 y1=0;
             }
         }else{
@@ -116,15 +133,21 @@ const AnchorsPlaces = () => {
 
     const handleClickPrevious = ( ) => {
         if(checkAnchorPlacing()){
-            anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1}) 
+            if(dimensional2d){
+                anchorsMap.set(anchorNumber ,{code:anchorNumber,x:x1 , y:y1})
+            }else{
+                anchorsMap.set(anchorNumber ,{code:anchorNumber,x:0 , y:y1})
+            }  
             if(anchorNumber > 1){
                 setAnchorNumber(anchorNumber-1);        
             } 
             if(anchorsMap.get(anchorNumber-1) !== undefined && anchorNumber != 1){
-                x1 = anchorsMap.get(anchorNumber-1).x;
                 y1 = anchorsMap.get(anchorNumber-1).y;
-                document.getElementById('FormControl1').value = x1;
-                document.getElementById('FormControl2').value = y1; 
+                document.getElementById('FormControl2').value = y1;
+                if(dimensional2d){
+                    x1 = anchorsMap.get(anchorNumber-1).x;
+                    document.getElementById('FormControl1').value = x1;
+                } 
             }
         }else{
             setOpen(true);
@@ -140,6 +163,13 @@ const AnchorsPlaces = () => {
     }
 
     const checkAnchorPlacing = (x,y) =>{
+        if(!dimensional2d){
+            if(0 <y1 && y1 <=height){
+                return true;
+            }else{
+                return false;
+            }
+        }
         if( 0 < x1 && x1 <=width && 0 <y1 && y1 <=height){
             return true;
         }else{
@@ -155,13 +185,15 @@ const AnchorsPlaces = () => {
                     <div className="row">
                         <div className="col-3">  
                         </div>
-                        <div className="col-6">  
-                            <InputGroup className="mb-3" >
-                                <InputGroup.Text id="basic-addon2">X</InputGroup.Text>
-                                <Form.Control id="FormControl1" type="number" placeholder="0" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeX}>                        
-                                </Form.Control>
-                            </InputGroup>
-                        </div>           
+                        {dimensional2d && 
+                            <div className="col-6">  
+                                <InputGroup className="mb-3" >
+                                    <InputGroup.Text id="basic-addon2">X</InputGroup.Text>
+                                    <Form.Control id="FormControl1" type="number" placeholder="0" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeX}>                        
+                                    </Form.Control>
+                                </InputGroup>
+                            </div>
+                        }           
                     </div>
                     <div className="row"> 
                         <div className="col-3">  
@@ -212,9 +244,11 @@ const AnchorsPlaces = () => {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Wrong Parameters !
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
-                        * The maximum width is {width}m
-                    </Typography>
+                    {dimensional2d &&
+                        <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
+                            * The maximum width is {width}m
+                        </Typography>
+                    }
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
                         * The maximum height is {height}m
                     </Typography>

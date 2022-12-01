@@ -8,6 +8,8 @@ from rest_framework.response import Response
 import json
 from .equalDistance import *
 from .monteCarlo import *
+from .equalDistance1d import *
+from .monteCarlo1d import *
 
 
 anchors1 = []
@@ -16,9 +18,10 @@ typeParameters =[]
 optimizationType = ''
 dimensionalType = ''
 strategyType = ''
-heigth1=0
+height1=0
 width1=0
 numberOfAnchors1=0
+quality1=0
 
 # Create your views here.
 
@@ -50,9 +53,9 @@ class CreatWallView(APIView):
             width = serializer.data['width']
             angle = serializer.data['angle']
             number_of_anchors = serializer.data['number_of_anchors']
-            global width1, heigth1 , numberOfAnchors1
+            global width1, height1 , numberOfAnchors1
             width1 =width 
-            heigth1 = height
+            height1 = height
             numberOfAnchors1 = number_of_anchors
             
             host = self.request.session.session_key
@@ -106,28 +109,47 @@ class startSimulation(APIView):
     def post(self , request , format=None):
         
         global strategyType
-        
-        #Manually
-        if(strategyType == '1'):
-            result =anchors1
-        
-        #Equal Distance 
-        if(strategyType == '2'): # number_of_anchors 
-            result = createEqualDistance(heigth1,width1,numberOfAnchors1)
-            print(result)
-            
-        
-        #Monte carlo
-        if(strategyType == '3'):
-            result ,quality = createAncorsWithMonteCarlo(heigth1,width1,numberOfAnchors1)
-            print(result ,quality)
-        
+        global quality1
+        if(dimensionalType == '2'):
+            #Manually
+            if(strategyType == '1'):
+                result =anchors1
+                quality1 = quality(height1 , width1 , anchors1)            
+            #Equal Distance 
+            if(strategyType == '2'): # number_of_anchors 
+                result ,quality1 = createEqualDistance(height1,width1,numberOfAnchors1)     
+            #Monte carlo
+            if(strategyType == '3'):
+                result ,quality1 = createAncorsWithMonteCarlo(height1,width1,numberOfAnchors1)
+       
+        if(dimensionalType == '1'):
+            #Manually
+            if(strategyType == '1'):
+                result =anchors1
+                print(result)
+  
+            #Equal Distance 
+            if(strategyType == '2'): # number_of_anchors 
+                result  = createEqualDistance1d(height1,numberOfAnchors1)
+                print(result)
+  
+            #Monte carlo
+            if(strategyType == '3'):
+                result  = createAncorsWithMonteCarlo1d(height1,numberOfAnchors1)
+                print(result)
+                   
         #optimization
         if(True):
             pass
         
         return Response(json.dumps(result), status=status.HTTP_200_OK)
     
-        
+class simulationQuality(APIView):
+    
+    def post(self , request , format=None):
+        global quality1
+        quality_str = str(quality1*100)
+        quality_str = quality_str[0:4]
+        return Response(quality_str, status=status.HTTP_200_OK)       
     
             

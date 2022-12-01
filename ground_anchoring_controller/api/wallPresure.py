@@ -37,6 +37,9 @@ def calculate_mat_wall_presure(height , width , wall_presure , anchors):
         x = anchor['x']
         y = anchor['y']
         
+        if(x != 0):  
+            x-=1
+        
         # distance = 0
         wall_presure2[x][y] = 0
         
@@ -68,8 +71,6 @@ def calculate_mat_wall_presure(height , width , wall_presure , anchors):
         if(x+1 < width and y+2 < height):
             wall_presure2[x+1][y+2] = wall_presure2[x+1][y+2] * 0.5 # 4
         if(x+2 < width and y+2 < height):
-            #print(x+2 ,len(wall_presure))
-            #print(y+2, len(wall_presure[x+2]))
             wall_presure2[x+2][y+2] = wall_presure2[x+2][y+2] * 0.5 # 5
         if(x+2 < width and y+1 < height):
             wall_presure2[x+2][y+1] = wall_presure2[x+2][y+1] * 0.5 # 6
@@ -142,12 +143,9 @@ def calculate_mat_wall_presure(height , width , wall_presure , anchors):
         if(0 < x-3 and y+1 < height):
             wall_presure2[x-3][y+1] = wall_presure2[x-3][y+1] * 0.75 # 23
         if(0 < x-3 and y+2 < height):
-            wall_presure2[x-3][y+2] = wall_presure2[x-3][y+2] * 0.75 # 24
-        
+            wall_presure2[x-3][y+2] = wall_presure2[x-3][y+2] * 0.75 # 24  
     
     return wall_presure2
-    
-    
 
 
 # Done !

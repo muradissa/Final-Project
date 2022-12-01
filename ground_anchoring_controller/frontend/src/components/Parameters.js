@@ -15,8 +15,9 @@ function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 500));
 }
 const Parameters = () => {
-    
+    const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
     const [isLoading, setLoading] = useState(false);
+    const [dimensional2d, setDimensional2d] = useState(false);
     const navigate = useNavigate();
     const [anchorsPara] =useState({
         numbersOfAnchors:0,
@@ -30,6 +31,12 @@ const Parameters = () => {
         width:0 ,
         angle:0 
     });
+
+    useEffect(() => {
+        if(dimensionalType == '2'){
+            setDimensional2d(true)
+        }
+    },[]);
 
 
     const [open, setOpen] = React.useState(false);
@@ -73,6 +80,7 @@ const Parameters = () => {
                 wallParametersRequest();
                 return true;        
         }
+        
         setOpen(true);
         return false;
     }
@@ -82,8 +90,8 @@ const Parameters = () => {
             simulateNetworkRequest().then(() => {
                 setLoading(false);
                 // console.log(localStorage.getItem("strategyType"));
-                console.log(anchorsPara);
-                console.log(wallPara);
+                //console.log(anchorsPara);
+                //console.log(wallPara);
                 if(checkValues())
                     if(enterTheAnchorsManaul()){
                         navigate('/anchorsPlaces');
@@ -92,9 +100,16 @@ const Parameters = () => {
                     }
                     
                 else
-                console.log("Wrong parameters");
+                    console.log("Wrong parameters");
             });
         }
+        if (dimensionalType == '1'){
+            document.getElementById('FormControlAngel').value = '90';
+            wallPara.angle=90;
+            localStorage.setItem("angle", wallPara.angle); 
+        }
+        
+
     }, [isLoading]);
 
     const handleClick = () => {    
@@ -122,7 +137,10 @@ const Parameters = () => {
     }
     function handleChangeHeight(event) {
         wallPara.height = parseFloat (event.target.value);
-        localStorage.setItem("height", wallPara.height);  
+        localStorage.setItem("height", wallPara.height); 
+        if(!dimensional2d){
+            wallPara.width = 2.0
+        } 
     }
     function handleChangeWidth(event) {   
         wallPara.width = parseFloat (event.target.value);
@@ -195,20 +213,22 @@ const Parameters = () => {
                             </InputGroup>
                         </div>
                     </div>
-                    <div className="row"> 
-                        <div className="col-12">     
-                            <InputGroup className="mb-3" >
-                                <InputGroup.Text id="basic-addon7">Width ( m )</InputGroup.Text>
-                                <Form.Control  type="number" placeholder="maximum 150m" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeWidth}/>
-                            </InputGroup>
+                    {dimensional2d &&
+                        <div className="row"> 
+                            <div className="col-12">     
+                                <InputGroup className="mb-3" >
+                                    <InputGroup.Text id="basic-addon7">Width ( m )</InputGroup.Text>
+                                    <Form.Control  type="number" placeholder="maximum 150m" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeWidth}/>
+                                </InputGroup>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div className="row"> 
                         <div className="col-12">  
                     
                             <InputGroup className="mb-3" >
                                 <InputGroup.Text id="basic-addon8">Angle(Rad)</InputGroup.Text>
-                                <Form.Control type="number" placeholder="90 - 150" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngel}/>
+                                <Form.Control id="FormControlAngel" type="number" placeholder="90 - 150" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngel}/>
                             </InputGroup>
                         </div>
                     </div>
