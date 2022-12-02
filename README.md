@@ -1,5 +1,14 @@
 # Final-Project
 
+The goal of the project is to enabling optimization of anchors’ positions for ground holding walls.
+For this purpose, the program simulates forces arising in such situations and calculates mechanical stresses based on finite element methods.
+Efficiency of various strategies of anchor placing will be studied. Improvements of such strategies will be searched by the machine learning methods (Monte Carlo simulations, q-learning, gradient descent, branch and bounds,).
+Reliability of the results are studied from the comparisons of the obtained results with the published ones for the real ground holding walls.
+
+
+
+
+# Install
 pip install django djangorestframework
 django-admin startproject ground_anchoring_controller
 cd ground_anchoring_controller
