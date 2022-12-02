@@ -24,9 +24,9 @@ const FinalResult = () => {
     const height = localStorage.getItem("height");
     const width = localStorage.getItem("width");
     const angle = localStorage.getItem("angle");
-    const [strategyType, setStrategyType] = useState(localStorage.getItem("strategyType2"));
-    const [optimizationType, setOptimizationType] = useState(localStorage.getItem("optimizationType2"));
-    const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
+    const [strategyType] = useState(localStorage.getItem("strategyType2"));
+    const [optimizationType] = useState(localStorage.getItem("optimizationType2"));
+    const [dimensionalType] = useState(localStorage.getItem("dimensionalType2"));
     const [quality, setQuality] = useState("0");
     
     
