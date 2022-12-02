@@ -29,6 +29,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/material": "^5.10.14",
     "bootstrap": "^5.2.2",
+    "install": "^0.13.0",
     "react-bootstrap": "^2.6.0",
     "react-bootstrap-validation": "^0.1.11",
     "react-icons": "^4.6.0",

@@ -28,7 +28,7 @@ python .\manage.py migrate
 
 # add frontend 
 
-django-admin startapp frontend
+django-admin startapp frontend asda 
 ⌨ NPM Setup Commands ⌨  => npm i install
 npm init -y
 npm i webpack webpack-cli --save-dev
