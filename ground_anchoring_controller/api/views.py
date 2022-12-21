@@ -10,6 +10,8 @@ from .equalDistance import *
 from .monteCarlo import *
 from .equalDistance1d import *
 from .monteCarlo1d import *
+from .euller_beam import *
+import base64
 
 
 anchors1 = []
@@ -22,6 +24,9 @@ height1=0
 width1=0
 numberOfAnchors1=0
 quality1=0
+high_moment = 0
+anchors_1d =[]
+
 
 # Create your views here.
 
@@ -108,8 +113,9 @@ class startSimulation(APIView):
     
     def post(self , request , format=None):
         
-        global strategyType
+        global strategyType , anchors1
         global quality1
+        
         if(dimensionalType == '2'):
             #Manually
             if(strategyType == '1'):
@@ -131,11 +137,13 @@ class startSimulation(APIView):
             #Equal Distance 
             if(strategyType == '2'): # number_of_anchors 
                 result  = createEqualDistance1d(height1,numberOfAnchors1)
+                anchors1 = result
                 print(result)
   
             #Monte carlo
             if(strategyType == '3'):
                 result  = createAncorsWithMonteCarlo1d(height1,numberOfAnchors1)
+                anchors1 = result
                 print(result)
                    
         #optimization
@@ -145,11 +153,27 @@ class startSimulation(APIView):
         return Response(json.dumps(result), status=status.HTTP_200_OK)
     
 class simulationQuality(APIView):
-    
     def post(self , request , format=None):
         global quality1
         quality_str = str(quality1*100)
         quality_str = quality_str[0:4]
-        return Response(quality_str, status=status.HTTP_200_OK)       
+        return Response(quality_str, status=status.HTTP_200_OK)
+
+class getHighMoment(APIView):
+    def post(self , request , format=None):
+        global high_moment ,anchors1     
+        anchors2 =[]
+        for acnhor in anchors1:
+            anchors2.append(acnhor['y'])
+        high_moment = start_euller_beam(height1,anchors2) 
+        return Response(high_moment, status=status.HTTP_200_OK)
+    
+class getImage(APIView):
+    def post(self , request , format=None):
+        with open('plot.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+    
+       
     
             
