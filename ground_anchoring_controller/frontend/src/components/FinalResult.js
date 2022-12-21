@@ -16,7 +16,7 @@ let acnhors_data;
 
 const FinalResult = () => {
     
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [dimensional2d, setDimensional2d] = useState(false);
     const [anchorNumber, setAnchorNumber] = useState(1);
@@ -97,8 +97,8 @@ const FinalResult = () => {
                     </div>
                     <div className='row' style={{paddingTop:'20px',textAlign:'center',}}>
                         <h3 style={{color:'white'}}>Cost : <b style={{color:'white'}}>{numbersOfAnchors*2178} $</b></h3>
-                        { !isLoading &&<h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>Loading..</b></h3>}
-                        { isLoading && <h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>{quality} %</b></h3>}     
+                        { !isLoading && dimensional2d &&<h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>Loading..</b></h3>}
+                        { isLoading && dimensional2d && <h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>{quality} %</b></h3>}     
                     </div>                                                  
                 </div>
                 <div className="col-8 center-Table">
