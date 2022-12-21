@@ -231,6 +231,10 @@ class clBeam():
 
 
 def start_euller_beam(h,anchors):
+    print("ANDHORS : ",anchors ,"okkkkk")
+    anchors.sort()
+    for acnhor in anchors:
+        print(acnhor)
     Beam=clBeam(h)
     x_data,y_data,y2_data=Beam.xy_get(anchors)
     max1 = find_the_high_moment(h,y2_data)
