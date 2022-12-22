@@ -43,11 +43,9 @@ const FinalResult = () => {
         fetch("/api/start", requestOptions)
         .then((response) => response.json())
         .then((data) => {
-            //acnhors_data= data
             anchorsMap = new Map(Object.entries(JSON.parse(data)))
             acnhors_data= Array.from(anchorsMap);
             setLoading(true)
-                //console.log(data)
         });
         
     },[])
@@ -62,7 +60,6 @@ const FinalResult = () => {
             fetch("/api/quality", requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 setQuality(data)
             });
         }      

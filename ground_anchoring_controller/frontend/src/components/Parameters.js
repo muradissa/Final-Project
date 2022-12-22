@@ -72,7 +72,6 @@ const Parameters = () => {
     }
 
     function checkValues(){
-        console.log(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 100);
         if(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 100 && 
             wallPara.height <= 30 && wallPara.height > 0 &&
             wallPara.width <= 150 && wallPara.width > 0 &&
@@ -89,9 +88,6 @@ const Parameters = () => {
         if (isLoading) {
             simulateNetworkRequest().then(() => {
                 setLoading(false);
-                // console.log(localStorage.getItem("strategyType"));
-                //console.log(anchorsPara);
-                //console.log(wallPara);
                 if(checkValues())
                     if(enterTheAnchorsManaul()){
                         navigate('/anchorsPlaces');
@@ -104,9 +100,14 @@ const Parameters = () => {
             });
         }
         if (dimensionalType == '1'){
-            document.getElementById('FormControlAngel').value = '90';
-            wallPara.angle=90;
-            localStorage.setItem("angle", wallPara.angle); 
+            if(wallPara.angle !=90){
+                localStorage.setItem("angle", wallPara.angle);
+            }else{
+                document.getElementById('FormControlAngel').value = '90';
+                wallPara.angle=90;
+                localStorage.setItem("angle", wallPara.angle);
+            }
+              
         }
         
 
@@ -146,7 +147,7 @@ const Parameters = () => {
         wallPara.width = parseFloat (event.target.value);
         localStorage.setItem("width", wallPara.width);  
     }
-    function handleChangeAngel(event) {
+    function handleChangeAngle(event) {
         wallPara.angle = parseFloat (event.target.value);
         localStorage.setItem("angle", wallPara.angle);  
     }
@@ -232,7 +233,7 @@ const Parameters = () => {
                     
                             <InputGroup className="mb-3" >
                                 <InputGroup.Text id="basic-addon8">Angle(Rad)</InputGroup.Text>
-                                <Form.Control id="FormControlAngel" type="number" placeholder="90 - 150" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngel}/>
+                                <Form.Control id="FormControlAngel" type="number" placeholder="90 - 150" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngle}/>
                             </InputGroup>
                         </div>
                     </div>

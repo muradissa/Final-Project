@@ -52,7 +52,6 @@ const Table1d = (acnhors_data) => {
     const rowSequre = (width,height) => {
       
       anchorsArray=acnhors_data.acnhors_data
-      console.log(anchorsArray)
       let content2 = [];
       for(let y = height2 ; 0 < y; y--){
         let content = [];
@@ -112,11 +111,7 @@ const Table1d = (acnhors_data) => {
       return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xx</td>
     }
   const calcQulaity =() => { 
-      console.log(n);
-      console.log(highMoment);
-      console.log(alpha);
-      console.log(beta);
-      console.log(gamma);  
+      
       const e = Math.E;
       let res = alpha*Math.pow(e,-beta*n) + (1-alpha)*Math.pow(e,-gamma*highMoment);
       res = (res*100.0).toFixed(2);

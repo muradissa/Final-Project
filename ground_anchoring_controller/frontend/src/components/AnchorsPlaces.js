@@ -59,17 +59,13 @@ const AnchorsPlaces = () => {
         fetch("/api/create-anchors", requestOptions)
           .then((response) => response.json())
           .then((data) => {
-            console.log(data)
-            
           });
     }
 
     const convertMapToJsonString = () => {
         // ✅ Convert to JSON string
         const values = anchorsMap.values()
-        //console.log()
         const jsonStr = JSON.stringify(Object.fromEntries(anchorsMap));
-        //console.log(jsonStr);
         return jsonStr ;      
     }
 
