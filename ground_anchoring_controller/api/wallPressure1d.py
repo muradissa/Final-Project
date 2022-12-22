@@ -1,6 +1,7 @@
 from numpy import * 
 from copy import deepcopy
-
+from .euller_beam import *
+# from ground_anchoring_controller.api.euller_beam import *
 
 # presure formula=> P = phg
 p= 997   # water mass density = 997 kg/m³
@@ -67,43 +68,18 @@ def create_best_anchors_for_wall_presure1d(height ):
         y1-=2
         id+=1   
     return anchors
-    
 
 # Done !
 def covert_matrix_presure_to_number1d(wall_presure):
     return sum(wall_presure)
- 
-    
-# Done !
-'''
-    This function take ( p1 =the maxinum presure ,p2 = the minumum presure ,p3 = the current presure) 
-    and calculate the quality between them in this way =>
-    quality = (p1-p3)/(p1-p2)
-    Inputs  => (p1 : number) , (p2 : number) , (p3 : number)
-    Output  => (quality : number)
-'''
-def calculate_quality1d(p1 , p2 , p3):
-    quality = 1- ((p3-p2)/(p1-p2))
-    return quality
-    
 
-# Done !
-def quality1d (height,anchors):
-    # 1
-    #print("1111")
-    p1 = create_mat_wall_presure1d(height)   
-    p1_sum = covert_matrix_presure_to_number1d(p1)
-    
-    
-    # 2
-    #print("2222")
-    best_places_for_anchors = create_best_anchors_for_wall_presure1d(height )
-    p2 = calculate_mat_wall_presure1d(height , deepcopy(p1) ,best_places_for_anchors)
-    p2_sum = covert_matrix_presure_to_number1d(p2)
-    # 3
-    #print("3333")
-    p3 = calculate_mat_wall_presure1d(height, p1 ,anchors)
-    p3_sum = covert_matrix_presure_to_number1d(p3)
-    
-    return calculate_quality1d(p1_sum ,p2_sum ,p3_sum)
+
+def quality1d (height, deg, anchors):
+    anchors_x =[]
+    for anchor in anchors:
+        anchors_x.append(anchor['y'])
+
+    res = start_euller_beam(height, deg, anchors_x, save_plot=False)  
+
+    return res
     

@@ -12,6 +12,7 @@ let highMoment=0, alpha =0.5, beta = 1.0 , gamma=1.0;
 const Table1d = (acnhors_data) => {
     const height2 = localStorage.getItem("height");
     const [quality,setQuality] = useState(0);
+    const [moment,setMoment] = useState(0);
     let n = localStorage.getItem("numbersOfAnchors");
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
     const [switchButton,setSwitchButton] = useState(true);
@@ -42,6 +43,7 @@ const Table1d = (acnhors_data) => {
       .then((response) => response.json())
       .then((data) => {
           highMoment = Math.abs(data);
+          setMoment(highMoment)
           calcQulaity();
           fetchImage();
       });
@@ -194,7 +196,7 @@ const Table1d = (acnhors_data) => {
               {/* <h4 style={{color:"white"}}>Quality formula </h4> */}
               <h4 style={{color:"white"}}>Quality : α * e<sup style={{color:"white"}}>-β*n</sup>+(1-α)* e<sup style={{color:"white"}}>-γ*m</sup> </h4>
               <h6 style={{paddingTop:"10px",color:"white"}}>n : number of anchors</h6>
-              <h6 style={{color:"white"}}>m : the highest moment</h6>  
+              <h6 style={{color:"white"}}>m : the highest moment - {moment}</h6>  
                   <InputGroup className="mb-3" style={{paddingTop:"10px",width:"200px"}}>
                       <InputGroup.Text id="basic-addon2">α :</InputGroup.Text>
                       <Form.Control  placeholder="0.5"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeA} />

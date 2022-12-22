@@ -21,6 +21,7 @@ optimizationType = ''
 dimensionalType = ''
 strategyType = ''
 height1=0
+angle1=90
 width1=0
 numberOfAnchors1=0
 quality1=0
@@ -58,10 +59,11 @@ class CreatWallView(APIView):
             width = serializer.data['width']
             angle = serializer.data['angle']
             number_of_anchors = serializer.data['number_of_anchors']
-            global width1, height1 , numberOfAnchors1
+            global width1, height1 , numberOfAnchors1, angle1
             width1 =width 
             height1 = height
             numberOfAnchors1 = number_of_anchors
+            angle1 = angle
             
             host = self.request.session.session_key
             queryset = Wall.objects.filter(host =host)
@@ -142,7 +144,7 @@ class startSimulation(APIView):
   
             #Monte carlo
             if(strategyType == '3'):
-                result  = createAncorsWithMonteCarlo1d(height1,numberOfAnchors1)
+                result  = createAncorsWithMonteCarlo1d(height1, angle1, numberOfAnchors1)
                 anchors1 = result
                 print(result)
                    
@@ -165,7 +167,7 @@ class getHighMoment(APIView):
         anchors2 =[]
         for acnhor in anchors1:
             anchors2.append(acnhor['y'])
-        high_moment = start_euller_beam(height1,anchors2) 
+        high_moment = start_euller_beam(height1, angle1, anchors2) 
         return Response(high_moment, status=status.HTTP_200_OK)
     
 class getImage(APIView):
