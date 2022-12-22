@@ -31,23 +31,21 @@ def createAncorsWithMonteCarlo(height , width,max_num_of_anchors):
     # For loop to run for the number of simulations desired
     for i in range(num_simulations):
         anchors_1 = []
-        num_rolls = [0]
         num_anchor = 0
+
         # Run until the computer has rolled "max_num_of_anchors" times
-        while num_rolls[-1] < max_num_of_anchors:
-            
-            new_anchor,x,y = roll_dice(height , width,anchors_1) 
-            
+        while len(anchors_1) < max_num_of_anchors:
+
+            new_anchor, x, y = roll_dice(height, width,anchors_1)
+
             # Result if the anchors is not exist 
             if new_anchor:
                 anchors_1.append({'id' : num_anchor+1 , 'x' : x , 'y' : y})
                 num_anchor += 1
-                    
-            num_rolls.append(num_rolls[-1] + 1)
 
         # if this simulation give us better quality than take it
         quality_2 = quality(height , width,anchors_1)
-        if (quality_2 > quality_1):
+        if (quality_2 < quality_1):
             quality_1 = quality_2 
             anchors = anchors_1.copy()
             

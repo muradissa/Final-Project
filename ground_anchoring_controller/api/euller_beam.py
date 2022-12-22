@@ -1,17 +1,19 @@
 from __future__ import division  #to enable normal floating division
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 class clBeam():
-	def __init__(self,h):
+	def __init__(self, h, deg):
 		# Beam parameters
 		# Exact solution, E*Iy = const, y1 = y', y0 = y, 
 		#w = 10  #beam cross sec width (m) - not in use
 		self.h = h   # height (m)
+		self.deg = deg   # height (m)
 		self.I = 104   #cross sec moment of inertia (mm^4)
 		self.E = 30   #steel elast modul (N/mm^2)
-		self.F = 9.8*1000   #point load (N)
+		self.F = 9.8*1000*math.sin(math.radians(deg))  #point load (N)
 		self.E_Ic = (self.I * self.E)*(1000**2)
 		
 	def w(self, x, c_1, c_2, c_3, c_4):
@@ -167,11 +169,10 @@ class clBeam():
 						vv_A[u][k0+k+4] = -self.aa2(x,k)
 					v_b[u] = 0
 		
-		print(str(v_b))
-		print(str(vv_A))
+
 		vc = np.linalg.solve(vv_A, v_b)
-		print(str(vc))
 		return vc
+
 	def nn_make(self,v_x_anchor):
 		self.bTheLastAnchor_h=False
 		n = len(v_x_anchor)
@@ -230,46 +231,33 @@ class clBeam():
 # plt.show()
 
 
-def start_euller_beam(h,anchors):
-    print("ANDHORS : ",anchors ,"okkkkk")
+def start_euller_beam(h, deg, anchors, save_plot=True):
     anchors.sort()
-    for acnhor in anchors:
-        print(acnhor)
-    Beam=clBeam(h)
+    Beam=clBeam(h, deg)
     x_data,y_data,y2_data=Beam.xy_get(anchors)
-    max1 = find_the_high_moment(h,y2_data)
-    min1 = find_the_low_moment(h,y2_data)
-    plt.close()
-    plt.plot(y_data,x_data, label = "w")
-    plt.plot(y2_data,x_data, label = "w''")
-    plt.plot([0,0],[0,h], label = "x")
-    plt.legend()
-    
-    #plt.show()
-    plt.savefig("plot.jpg")
+    max1 = find_the_high_moment(y2_data)
+    print(deg)
+    if save_plot:
+        plt.close()
+        plt.plot(y_data,x_data, label = "w")
+        plt.plot(y2_data,x_data, label = "w''")
+        plt.plot([0,0],[0,h], label = "x")
+        plt.legend()
+        
+        #plt.show()
+        plt.savefig("plot.jpg")
+
     return max1
     
-def find_the_high_moment(h,y2_data):
+def find_the_high_moment(y2_data):
     max1 = y2_data[0]
-    index = 0
-    for i in range(1,len(y2_data)):
-        if (abs(y2_data[i]) > max1):
-            max1 = abs(y2_data[i])
-            index = i
-    index = round((index/300)*h)
-    print(f'Index of the maximum value is : {index}')
+    
+    for moment in y2_data:
+        if abs(moment) > max1:
+            max1 = abs(moment)
+
     return max1
     
-def find_the_low_moment(h,y2_data):
-    min1 = y2_data[0]
-    index = 0
-    for i in range(1,len(y2_data)):
-        if y2_data[i] < min1:
-            min1 = y2_data[i]
-            index = i
-    index = round((index/300)*h)
-    print(f'Index of the minimum value is : {index}')
-    return min1
     
 
 # start_euller_beam(h=15 ,anchors = [2,4,6,9,14] )
