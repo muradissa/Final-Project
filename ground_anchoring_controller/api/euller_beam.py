@@ -236,7 +236,7 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
     Beam=clBeam(h, deg)
     x_data,y_data,y2_data=Beam.xy_get(anchors)
     max1 = find_the_high_moment(y2_data)
-    print(deg)
+    
     if save_plot:
         plt.close()
         plt.plot(y_data,x_data, label = "w")

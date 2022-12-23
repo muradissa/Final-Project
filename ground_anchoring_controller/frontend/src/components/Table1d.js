@@ -75,14 +75,15 @@ const Table1d = (acnhors_data) => {
       if (anchorsArray === null || anchorsArray === undefined){
         return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xx</td>
       }
+      console.log(anchorsArray)
       const exist = anchorsArray.filter(item => 
-        ( item[1].x == x &&  item[1].y == y)
+        ( item[1].x == x &&  Math.round(item[1].y) == y)
       );    
       
       const exist1 = anchorsArray.filter(item => 
-        ( item[1].x+1 == x &&  item[1].y == y));
+        ( item[1].x+1 == x &&  Math.round(item[1].y) == y));
       const exist2 = anchorsArray.filter(item => 
-        ( item[1].x+2 == x &&  item[1].y == y));
+        ( item[1].x+2 == x &&  Math.round(item[1].y) == y));
       const exist3 = anchorsArray.filter(item => 
         ( item[1].x-3 == x &&  item[1].y+3 == y)||( item[1].x-2 == x &&  item[1].y+3 == y)||
         ( item[1].x-1 == x &&  item[1].y+3 == y)||( item[1].x+0 == x &&  item[1].y+3 == y)||

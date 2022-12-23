@@ -11,7 +11,8 @@ import random
 # Creating Roll Anchor Function
 def roll_dice (height ,anchors_1 ):    
     x = 0
-    y = random.randint(1, height-1)
+    # y = random.randint(1, height-1)
+    y= random.uniform(1, height-1)
 
     # Determining if the anchor is exist
     if(len(anchors_1) > 0):
