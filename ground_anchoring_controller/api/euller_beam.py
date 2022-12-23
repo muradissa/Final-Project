@@ -15,62 +15,95 @@ class clBeam():
 		self.E = 30   #steel elast modul (N/mm^2)
 		self.F = 9.8*1000*math.sin(math.radians(deg))  #point load (N)
 		self.E_Ic = (self.I * self.E)*(1000**2)
-		
+#  kg*m^2/s^2
+
+	def get_E_Ic(self):
+		return self.E_Ic
+
 	def w(self, x, c_1, c_2, c_3, c_4):
 		return -(self.F*x**5)/(2*3*4*5*self.E_Ic) + (self.F*self.h*x**4)/(2*3*4*self.E_Ic) + c_1*x**3 + c_2*x**2 + c_3*x + c_4
+
 	def bb(self,x):
 		return -(self.F*(x**5))/(2*3*4*5*self.E_Ic) + (self.F*self.h*(x**4))/(2*3*4*self.E_Ic)
+
 	def bb1(self,x):
 		return -(self.F*(x**4))/(2*3*4*self.E_Ic) + (self.F*self.h*(x**3))/(2*3*self.E_Ic)
+
 	def bb2(self,x):
 		return -(self.F*(x**3))/(2*3*self.E_Ic) + (self.F*self.h*(x**2))/(2*self.E_Ic)
+
 	def bb3(self,x):
 		return -(self.F*(x**2))/(2*self.E_Ic) + (self.F*self.h*x)/(self.E_Ic)
+
 	def aa(self,x,k):
-		if k==0:
-			return 1
-		if k==1:
-			return x
-		if k==2:
-			return x**2
-		if k==3:
-			return x**3
-		return 1/0
+		if k in [0, 1, 2 , 3]:
+			return x**k
+		raise ValueError
+
+		# if k==0:
+		# 	return 1
+		# if k==1:
+		# 	return x
+		# if k==2:
+		# 	return x**2
+		# if k==3:
+		# 	return x**3
+
 	def aa1(self,x,k):
-		if k==0:
+		if k == 0:
 			return 0
-		if k==1:
-			return 1
-		if k==2:
-			return 2*x
-		if k==3:
-			return 3*(x**2)
-		return 1/0
+		if k in [1, 2 , 3]:
+			return k*x**(k - 1)
+		raise ValueError
+
+		# if k==0:
+		# 	return 0
+		# if k==1:
+		# 	return 1
+		# if k==2:
+		# 	return 2*x
+		# if k==3:
+		# 	return 3*(x**2)
+		# return 1/0
+
 	def aa2(self,x,k):
-		if k==0:
+		if k in [0, 1]:
 			return 0
-		if k==1:
-			return 0
-		if k==2:
-			return 2
-		if k==3:
-			return 6*x
-		return 1/0
+		if k in [2 , 3]:
+			return (k-1)*k*x**(k - 2)
+		raise ValueError
+		# if k==0:
+		# 	return 0
+		# if k==1:
+		# 	return 0
+		# if k==2:
+		# 	return 2
+		# if k==3:
+		# 	return 6*x
+		# return 1/0
 	def aa3(self,x,k):
-		if k==0:
+		if k in [0, 1, 2]:
 			return 0
-		if k==1:
-			return 0
-		if k==2:
-			return 0
-		if k==3:
+		if k ==3:
 			return 6
-		return 1/0
+		raise ValueError
+		
+		# if k==0:
+		# 	return 0
+		# if k==1:
+		# 	return 0
+		# if k==2:
+		# 	return 0
+		# if k==3:
+		# 	return 6
+		# return 1/0
+
 	def ww(self,x,vc):
 		w=self.bb(x)
 		for k in range(4):
 			w+=vc[k]*self.aa(x,k)
 		return w
+
 	def ww2(self,x,vc):
 		w=self.bb2(x)
 		for k in range(4):
@@ -181,6 +214,7 @@ class clBeam():
 			self.bTheLastAnchor_h=(abs(self.h-v_x_anchor[n-1])<0.01)
 		if self.bTheLastAnchor_h:
 			self.nn-=1#no need the last interval
+
 	def iInterval_get(self,x,v_x_anchor):
 		#use after self.nn_make(v_x_anchor)
 		i_anchor=0
@@ -191,6 +225,7 @@ class clBeam():
 		if self.bTheLastAnchor_h:
 			return i_anchor-1
 		return i_anchor
+
 	def xy_get(self,v_x_anchor,nPoints=300):
 		vvc = self.vvc_get(v_x_anchor)
 		x_data = np.linspace(0,self.h,nPoints)
@@ -235,7 +270,7 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
     anchors.sort()
     Beam=clBeam(h, deg)
     x_data,y_data,y2_data=Beam.xy_get(anchors)
-    max1 = find_the_high_moment(y2_data)
+    max1 = find_the_high_moment(y2_data, Beam.get_E_Ic())
     
     if save_plot:
         plt.close()
@@ -249,15 +284,15 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
 
     return max1
     
-def find_the_high_moment(y2_data):
+def find_the_high_moment(y2_data, E_Ic):
     max1 = y2_data[0]
-    
-    for moment in y2_data:
-        if abs(moment) > max1:
-            max1 = abs(moment)
 
-    return max1
+    for w2_x in y2_data:
+        if abs(w2_x) > max1:
+            max1 = abs(w2_x)
+
+    return round(abs(-E_Ic*max1), 2)
     
-    
+
 
 # start_euller_beam(h=15 ,anchors = [2,4,6,9,14] )

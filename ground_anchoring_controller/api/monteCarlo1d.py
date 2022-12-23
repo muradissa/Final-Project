@@ -12,7 +12,7 @@ import random
 def roll_dice (height ,anchors_1 ):    
     x = 0
     # y = random.randint(1, height-1)
-    y= random.uniform(1, height-1)
+    y= round(random.uniform(0.1, height), 2)
 
     # Determining if the anchor is exist
     if(len(anchors_1) > 0):
