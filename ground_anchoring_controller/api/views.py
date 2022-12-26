@@ -24,7 +24,7 @@ strategy_type = ''
 height1=0
 angle1=90
 width1=0
-numberOfAnchors1=0
+number_Of_Anchors1=0
 quality1=0
 high_moment = 0
 anchors_1d =[]
@@ -54,7 +54,7 @@ class CreatWallView(APIView):
 
 
     def post(self , request , format=None):
-        global width1, height1 , numberOfAnchors1, angle1
+        global width1, height1 , number_Of_Anchors1, angle1
 
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()   
@@ -64,14 +64,12 @@ class CreatWallView(APIView):
             width = serializer.data['width']
             angle = serializer.data['angle']
             number_of_anchors = serializer.data['number_of_anchors']
-            input(number_of_anchors)
             width1 =width 
             height1 = height
-            numberOfAnchors1 = number_of_anchors
+            number_Of_Anchors1 = number_of_anchors
             angle1 = angle
-
-            input(numberOfAnchors1)
-            
+            number_Of_Anchors1 = int(serializer.data['number_of_anchors'])
+            print("Number of anchors creatwallview: " ,number_Of_Anchors1)
             host = self.request.session.session_key
             queryset = Wall.objects.filter(host =host)
             if queryset.exists():
@@ -134,41 +132,41 @@ class startSimulation(APIView):
                 quality1 = quality(height1 , width1 , anchors1)            
             #Equal Distance 
             if(strategy_type == '2'): # number_of_anchors 
-                result ,quality1 = createEqualDistance(height1,width1,numberOfAnchors1)     
+                result ,quality1 = createEqualDistance(height1,width1,number_Of_Anchors1)     
             #Monte carlo
             if(strategy_type == '3'):
-                result ,quality1 = createAncorsWithMonteCarlo(height1,width1,numberOfAnchors1)
+                result ,quality1 = createAncorsWithMonteCarlo(height1,width1,number_Of_Anchors1)
        
         if(dimensional_type == '1'):
-            input(f"number of anchors = {numberOfAnchors1}")
+            # input(f"number of anchors = {number_Of_Anchors1}")
             #Manually
             if(strategy_type == '1'):
                 result = anchors1
             
             #Equal Distance 
             elif(strategy_type == '2'): # number_of_anchors 
-                result  = createEqualDistance1d(height1,numberOfAnchors1)
-                             
-  
+                result  = createEqualDistance1d(height1,number_Of_Anchors1)
+            
             #Monte carlo
             elif(strategy_type == '3'):
-                result  = createAncorsWithMonteCarlo1d(height1, angle1, numberOfAnchors1)
+                result  = createAncorsWithMonteCarlo1d(height1, angle1, number_Of_Anchors1)
 
+            print("result 1 = ",result)
             anchors2 =[]
-            for anchor in anchors1:
+            for anchor in result:
                 anchors2.append(anchor['y'])
 
             if optimization_type == '1':
                 anchors1 = result
-
+            
+            print("Number of anchors startSimulation : " ,number_Of_Anchors1)
             #optimization
             if(optimization_type == '2'):
                 moment, x_anchors = gradient_descent(height1, anchors2, cost_func, True, 1)
-                input(x_anchors)
-
                 for index in range(len(x_anchors)):
                     anchors1.append({'id':index+1, 'x': 0, 'y':x_anchors[index]})
                 result = anchors1
+                print("result 2 = ",result)
         
         return Response(json.dumps(result), status=status.HTTP_200_OK)
     

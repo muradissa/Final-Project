@@ -51,6 +51,7 @@ def init_solution(h,n):
     return vx
 
 def gradient_descent(h, vx, f, b_min, dx):
+    # print("gradient_descent  ", h, vx, f, b_min, dx)
     f0 = f(h, vx)
     dx_min = 0.01
     n = len(vx)

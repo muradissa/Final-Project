@@ -17,6 +17,7 @@ function simulateNetworkRequest() {
 const Parameters = () => {
     const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
     const [isLoading, setLoading] = useState(false);
+    const [isLoading2, setLoading2] = useState(false);
     const [dimensional2d, setDimensional2d] = useState(false);
     const navigate = useNavigate();
     const [anchorsPara] =useState({
@@ -55,7 +56,7 @@ const Parameters = () => {
         p: 4,
       };
 
-    const wallParametersRequest =() =>{
+      async function wallParametersRequest () {
         const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -66,9 +67,12 @@ const Parameters = () => {
             number_of_anchors: anchorsPara.numbersOfAnchors ,
           }),
         };
-        fetch("/api/create-wall", requestOptions)
+        await fetch("/api/create-wall", requestOptions)
           .then((response) => response.json())
-          .then((data) => console.log(data));
+          .then((data) => {
+            setLoading2(true)
+            console.log(data)
+        });
     }
 
     function checkValues(){
@@ -85,7 +89,7 @@ const Parameters = () => {
     }
 
     useEffect(() => {
-        if (isLoading) {
+        if (isLoading && isLoading2) {
             simulateNetworkRequest().then(() => {
                 setLoading(false);
                 if(checkValues())
@@ -111,7 +115,7 @@ const Parameters = () => {
         }
         
 
-    }, [isLoading]);
+    }, [isLoading,isLoading2]);
 
     const handleClick = () => {    
         setLoading(true);
