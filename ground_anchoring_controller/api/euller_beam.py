@@ -267,32 +267,35 @@ class clBeam():
 
 
 def start_euller_beam(h, deg, anchors, save_plot=True):
-    anchors.sort()
-    Beam=clBeam(h, deg)
-    x_data,y_data,y2_data=Beam.xy_get(anchors)
-    max1 = find_the_high_moment(y2_data, Beam.get_E_Ic())
-    
-    if save_plot:
-        plt.close()
-        plt.plot(y_data,x_data, label = "w")
-        plt.plot(y2_data,x_data, label = "w''")
-        plt.plot([0,0],[0,h], label = "x")
-        plt.legend()
-        
-        #plt.show()
-        plt.savefig("plot.jpg")
+	anchors.sort()
+	Beam=clBeam(h, deg)
+	x_data,y_data,y2_data=Beam.xy_get(anchors)
+	max1 = find_the_high_moment(y2_data, Beam.get_E_Ic())
+	
+	if save_plot:
+		plt.close()
+		plt.plot(y_data,x_data, label = "w")
+		plt.plot(y2_data,x_data, label = "w''")
+		plt.plot([0,0],[0,h], label = "x")
 
-    return max1
-    
+		for x in anchors:
+			plt.plot(0, x, marker="o", markersize=5, markeredgecolor="red",markerfacecolor="black")
+
+		plt.legend()
+		
+		
+		plt.savefig("plot.jpg")
+
+	return max1
+
 def find_the_high_moment(y2_data, E_Ic):
-    max1 = y2_data[0]
+	max1 = y2_data[0]
 
-    for w2_x in y2_data:
-        if abs(w2_x) > max1:
-            max1 = abs(w2_x)
+	for w2_x in y2_data:
+		if abs(w2_x) > max1:
+			max1 = abs(w2_x)
 
-    return round(abs(-E_Ic*max1), 2)
-    
+	return round(abs(-E_Ic*max1), 2)
 
 
-# start_euller_beam(h=15 ,anchors = [2,4,6,9,14] )
+start_euller_beam(10, 90, [3, 6, 9])
