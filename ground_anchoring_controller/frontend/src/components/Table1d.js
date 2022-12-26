@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 let anchorsMap ;
 let anchorsArray;
-let highMoment=0, alpha =0.5, beta = 1.0 , gamma=1.0;
+let highMoment=0, alpha =0.5, beta = 1.0 , gamma=0.0000001;
 
 const Table1d = (acnhors_data) => {
     const height2 = localStorage.getItem("height");
@@ -129,7 +129,7 @@ const Table1d = (acnhors_data) => {
   }
   function handleChangeB(event) {  
     var val = parseFloat (event.target.value);
-    if( 0.0 <= val && val <=1.0){   
+    if( 0.0 <= val ){   
       beta = val;
       // setBeta(val);
       calcQulaity();
@@ -137,7 +137,7 @@ const Table1d = (acnhors_data) => {
   }
   function handleChangeC(event) {
     var val = parseFloat (event.target.value);
-    if( 0.0 <= val && val <=1.0){
+    if( 0.0 <= val ){
       gamma = val ;
       //  setGamma(val); 
       calcQulaity();
@@ -207,7 +207,7 @@ const Table1d = (acnhors_data) => {
               <div className="col-12 col-sm-12 col-lg-12">  
                   <InputGroup className="mb-3" style={{width:"200px"}}>
                       <InputGroup.Text id="basic-addon3">γ :</InputGroup.Text>
-                      <Form.Control placeholder="1"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeC} />
+                      <Form.Control placeholder="0.000001"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeC} />
                   </InputGroup>
               </div>             
               
