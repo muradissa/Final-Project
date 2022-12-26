@@ -33,28 +33,28 @@ const Home = () => {
     };
 
     const fillTypes = () => {
-        const num1 = localStorage.getItem("optimizationType");
-        const num2 = localStorage.getItem("strategyType");
-        const num3 = localStorage.getItem("dimensionalType");
-        if(num1 == 1){
+        const optimization_method = localStorage.getItem("optimizationType");
+        const anchor_placing = localStorage.getItem("strategyType");
+        const dimensional_type = localStorage.getItem("dimensionalType");
+        if(optimization_method == 1){
             localStorage.setItem("optimizationType2", "No optimization"); 
-        }else if(num1 == 2){           
+        }else if(optimization_method == 2){           
             localStorage.setItem("optimizationType2", "Gradient descent"); 
-        }else if(num1 == 3){            
+        }else if(optimization_method == 3){            
             localStorage.setItem("optimizationType2", "Q-learning"); 
-        }else if(num1 == 4){           
+        }else if(optimization_method == 4){           
             localStorage.setItem("optimizationType2", "Artifical annealing"); 
         }      
-        if(num1 == 1){
+        if(anchor_placing == 1){
             localStorage.setItem("strategyType2", "Manually");
-        }else if(num2 == 2){           
+        }else if(anchor_placing == 2){           
             localStorage.setItem("strategyType2", "Equal distance");
-        }else if(num2 == 3){            
+        }else if(anchor_placing == 3){            
             localStorage.setItem("strategyType2", "Monte Carlo");
         }
-        if(num3 == 1){
+        if(dimensional_type == 1){
             localStorage.setItem("dimensionalType2", "1");
-        }else if(num3 == 2){           
+        }else if(dimensional_type == 2){           
             localStorage.setItem("dimensionalType2", "2");
         }             
     }

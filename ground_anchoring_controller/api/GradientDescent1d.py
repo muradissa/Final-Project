@@ -1,10 +1,10 @@
 # Importing Libraries
 import numpy as np
 import matplotlib.pyplot as plt
-from euller_beam import *
+from .euller_beam import *
 # add h to global and import it
 
-def f(h, v_x_anchor):
+def cost_func(h, v_x_anchor):
     dx = 0.001
     beam = clBeam(h , 90)
     vvc = beam.vvc_get(v_x_anchor)
@@ -35,7 +35,7 @@ def f(h, v_x_anchor):
 
 def test_wall(n):
     vx = init_solution(10,n)
-    f_min, vx_best = gradient_descent(10, vx, f, True, 1)
+    f_min, vx_best = gradient_descent(10, vx, cost_func, True, 1)
     print(f"f_min = {f_min}")
     print(f"vx_best = {vx_best}")
     return
@@ -94,5 +94,3 @@ def gradient_descent(h, vx, f, b_min, dx):
     return f0, vx
             
 
-if __name__=="__main__":
-	test_wall(5)
