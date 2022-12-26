@@ -12,14 +12,15 @@ from .equalDistance1d import *
 from .monteCarlo1d import *
 from .euller_beam import *
 import base64
+from .GradientDescent1d import *
 
 
 anchors1 = []
 wall1 = []
 typeParameters =[]
 optimizationType = ''
-dimensionalType = ''
-strategyType = ''
+dimensional_type = ''
+strategy_type = ''
 height1=0
 angle1=90
 width1=0
@@ -48,9 +49,13 @@ class CreatAnchorView(APIView):
     def post(self,request,format=None):
         pass
     
-class CreatWallView(APIView):   
+class CreatWallView(APIView):  
     serializer_class = CreateWallSerializer
+
+
     def post(self , request , format=None):
+        global width1, height1 , numberOfAnchors1, angle1
+
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()   
         serializer = self.serializer_class(data = request.data)
@@ -59,11 +64,13 @@ class CreatWallView(APIView):
             width = serializer.data['width']
             angle = serializer.data['angle']
             number_of_anchors = serializer.data['number_of_anchors']
-            global width1, height1 , numberOfAnchors1, angle1
+            input(number_of_anchors)
             width1 =width 
             height1 = height
             numberOfAnchors1 = number_of_anchors
             angle1 = angle
+
+            input(numberOfAnchors1)
             
             host = self.request.session.session_key
             queryset = Wall.objects.filter(host =host)
@@ -104,10 +111,10 @@ class EnterParametersView(APIView):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
         #typeParameters =json.loads(request.data)
-        global strategyType , globaloptimizationType ,dimensionalType
-        globaloptimizationType = request.data['optimizationType']
-        strategyType = request.data['strategyType']
-        dimensionalType = request.data['dimensionalType']
+        global strategy_type , optimization_type ,dimensional_type
+        optimization_type = request.data['optimizationType']
+        strategy_type = request.data['strategyType']
+        dimensional_type = request.data['dimensionalType']
         return Response("ok", status=status.HTTP_200_OK)
     
 
@@ -115,42 +122,53 @@ class startSimulation(APIView):
     
     def post(self , request , format=None):
         
-        global strategyType , anchors1
+        global strategy_type , anchors1
         global quality1
+
+        anchors1 = []
         
-        if(dimensionalType == '2'):
+        if(dimensional_type == '2'):
             #Manually
-            if(strategyType == '1'):
+            if(strategy_type == '1'):
                 result =anchors1
                 quality1 = quality(height1 , width1 , anchors1)            
             #Equal Distance 
-            if(strategyType == '2'): # number_of_anchors 
+            if(strategy_type == '2'): # number_of_anchors 
                 result ,quality1 = createEqualDistance(height1,width1,numberOfAnchors1)     
             #Monte carlo
-            if(strategyType == '3'):
+            if(strategy_type == '3'):
                 result ,quality1 = createAncorsWithMonteCarlo(height1,width1,numberOfAnchors1)
        
-        if(dimensionalType == '1'):
+        if(dimensional_type == '1'):
+            input(f"number of anchors = {numberOfAnchors1}")
             #Manually
-            if(strategyType == '1'):
-                result =anchors1
-                print(result)
-  
+            if(strategy_type == '1'):
+                result = anchors1
+            
             #Equal Distance 
-            if(strategyType == '2'): # number_of_anchors 
+            elif(strategy_type == '2'): # number_of_anchors 
                 result  = createEqualDistance1d(height1,numberOfAnchors1)
-                anchors1 = result
-                print(result)
+                             
   
             #Monte carlo
-            if(strategyType == '3'):
+            elif(strategy_type == '3'):
                 result  = createAncorsWithMonteCarlo1d(height1, angle1, numberOfAnchors1)
+
+            anchors2 =[]
+            for anchor in anchors1:
+                anchors2.append(anchor['y'])
+
+            if optimization_type == '1':
                 anchors1 = result
-                print(result)
-                   
-        #optimization
-        if(True):
-            pass
+
+            #optimization
+            if(optimization_type == '2'):
+                moment, x_anchors = gradient_descent(height1, anchors2, cost_func, True, 1)
+                input(x_anchors)
+
+                for index in range(len(x_anchors)):
+                    anchors1.append({'id':index+1, 'x': 0, 'y':x_anchors[index]})
+                result = anchors1
         
         return Response(json.dumps(result), status=status.HTTP_200_OK)
     

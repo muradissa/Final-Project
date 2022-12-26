@@ -60,7 +60,7 @@ const Parameters = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            height: wallPara.height,         
+            height: wallPara.height, 
             width: wallPara.width,
             angle: wallPara.angle,
             number_of_anchors: anchorsPara.numbersOfAnchors ,
