@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 let anchorsMap ;
 let anchorsArray;
-let highMoment=0, alpha =0.5, beta = 1.0 , gamma=0.000001;
+let highMoment=0, default_alpha=0.5, default_beta = 1.0 , default_gamma=0.000001;
 
 const Table1d = (acnhors_data) => {
     const height2 = localStorage.getItem("height");
@@ -61,25 +61,25 @@ const Table1d = (acnhors_data) => {
         content2.push(<tr>{content}</tr>);    
       }
       let content = [];
-      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xx</td>);
-      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xx</td>);
-      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xx</td>);
-      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xx</td>);
-      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xx</td>);
-      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xx</td>);
+      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xxx</td>);
+      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xxx</td>);
+      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xxx</td>);
+      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xxx</td>);
+      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xxx</td>);
+      content.push(<td style={{backgroundColor:"black" ,color:"black"}}>xxx</td>);
       content2.push(<tr>{content}</tr>); 
       return content2;
     }
 
     const fillTheSquare = (x,y) =>{
       if (anchorsArray === null || anchorsArray === undefined){
-        return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xx</td>
+        return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xxx</td>
       }
       console.log(anchorsArray)
       const exist = anchorsArray.filter(item => 
         ( item[1].x == x &&  Math.round(item[1].y) == y)
       );    
-      
+
       const exist1 = anchorsArray.filter(item => 
         ( item[1].x+1 == x &&  Math.round(item[1].y) == y));
       const exist2 = anchorsArray.filter(item => 
@@ -98,23 +98,28 @@ const Table1d = (acnhors_data) => {
         ( item[1].x-3 == x &&  item[1].y-1 == y)||( item[1].x-3 == x &&  item[1].y+0 == y)||
         ( item[1].x-3 == x &&  item[1].y+1 == y)||( item[1].x-3 == x &&  item[1].y+2 == y)
 
-
         );
       if(exist.length > 0){
-        return <td style={{backgroundColor:"green" ,color:"green"}}>xx</td>
+      console.log("exist "+exist[1])
+      }
+      if(exist1.length > 0){
+        console.log("exist1 "+exist1[1])
+        }
+      if(exist.length > 0){
+        return <td style={{backgroundColor:"green" ,color:"green"}}>xxx</td>
       }else if(exist1.length > 0){
-        return <td style={{backgroundColor:"sienna" , color:"white",textAlign:"center"}}>{y}</td>
+        return <td style={{backgroundColor:"sienna" , color:"white",textAlign:"center"}}>{Math.round(exist[0].y, 1)}</td>
       }else if(exist2.length > 0){
         return <td style={{backgroundColor:"sienna" ,color:"white"}}>m</td>
       }else if(exist3.length < 0){
-        return <td style={{backgroundColor:"orangered" ,color:"orangered"}}>xx</td>
+        return <td style={{backgroundColor:"orangered" ,color:"orangered"}}>xxx</td>
       }
-      return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xx</td>
+      return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xxx</td>
     }
   const calcQulaity =() => { 
       
       const e = Math.E;
-      let res = alpha*Math.pow(e,-beta*n) + (1-alpha)*Math.pow(e,-gamma*highMoment);
+      let res = default_alpha*Math.pow(e,-default_beta*n) + (1-default_alpha)*Math.pow(e,-default_gamma*highMoment);
       res = (res*100.0).toFixed(2);
       setQuality(res) ;
   }
@@ -122,7 +127,7 @@ const Table1d = (acnhors_data) => {
   function handleChangeA(event) {
     var val = parseFloat (event.target.value);
     if( 0.0 <= val && val <=1.0){
-      alpha = val ;
+      default_alpha = val;
       //setAlpha(val);
       calcQulaity();
     }  
@@ -130,7 +135,7 @@ const Table1d = (acnhors_data) => {
   function handleChangeB(event) {  
     var val = parseFloat (event.target.value);
     if( 0.0 <= val){   
-      beta = val;
+      default_beta = val;
       // setBeta(val);
       calcQulaity();
     }
@@ -138,7 +143,7 @@ const Table1d = (acnhors_data) => {
   function handleChangeC(event) {
     var val = parseFloat (event.target.value);
     if( 0.0 <= val){
-      gamma = val ;
+      default_gamma = val ;
       //  setGamma(val); 
       calcQulaity();
     }
@@ -163,9 +168,9 @@ const Table1d = (acnhors_data) => {
             <div className="row">
               { switchButton &&
                 <div className="col-7" >
-                  <table style={{ marginLeft:'auto', marginRight:'auto',}}>   
+                  <table style={{ marginLeft:'auto', marginRight:'auto',}}>
                     {rowSequre()}   
-                  </table>         
+                  </table>
                 </div>
               }
               { switchButton &&
@@ -195,19 +200,19 @@ const Table1d = (acnhors_data) => {
               <h6 style={{color:"white"}}>m : the highest moment = {moment}</h6>  
                   <InputGroup className="mb-3" style={{paddingTop:"10px",width:"200px"}}>
                       <InputGroup.Text id="basic-addon2">α :</InputGroup.Text>
-                      <Form.Control  placeholder="0.5"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeA} />
+                      <Form.Control  placeholder={default_alpha}  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeA} />
                   </InputGroup>
               </div>
               <div className="col-12 col-sm-12 col-lg-12">  
                   <InputGroup className="mb-3" style={{width:"200px"}}>
                       <InputGroup.Text id="basic-addon3">β :</InputGroup.Text>
-                      <Form.Control placeholder="1"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeB} />
+                      <Form.Control placeholder={default_beta}  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeB} />
                   </InputGroup>
               </div>
               <div className="col-12 col-sm-12 col-lg-12">  
                   <InputGroup className="mb-3" style={{width:"200px"}}>
                       <InputGroup.Text id="basic-addon3">γ :</InputGroup.Text>
-                      <Form.Control placeholder="0.000001"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeC} />
+                      <Form.Control placeholder={default_gamma}  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeC} />
                   </InputGroup>
               </div>             
               

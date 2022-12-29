@@ -40,15 +40,6 @@ class clBeam():
 			return x**k
 		raise ValueError
 
-		# if k==0:
-		# 	return 1
-		# if k==1:
-		# 	return x
-		# if k==2:
-		# 	return x**2
-		# if k==3:
-		# 	return x**3
-
 	def aa1(self,x,k):
 		if k == 0:
 			return 0
@@ -56,47 +47,19 @@ class clBeam():
 			return k*x**(k - 1)
 		raise ValueError
 
-		# if k==0:
-		# 	return 0
-		# if k==1:
-		# 	return 1
-		# if k==2:
-		# 	return 2*x
-		# if k==3:
-		# 	return 3*(x**2)
-		# return 1/0
-
 	def aa2(self,x,k):
 		if k in [0, 1]:
 			return 0
 		if k in [2 , 3]:
 			return (k-1)*k*x**(k - 2)
 		raise ValueError
-		# if k==0:
-		# 	return 0
-		# if k==1:
-		# 	return 0
-		# if k==2:
-		# 	return 2
-		# if k==3:
-		# 	return 6*x
-		# return 1/0
+
 	def aa3(self,x,k):
 		if k in [0, 1, 2]:
 			return 0
 		if k ==3:
 			return 6
 		raise ValueError
-		
-		# if k==0:
-		# 	return 0
-		# if k==1:
-		# 	return 0
-		# if k==2:
-		# 	return 0
-		# if k==3:
-		# 	return 6
-		# return 1/0
 
 	def ww(self,x,vc):
 		w=self.bb(x)

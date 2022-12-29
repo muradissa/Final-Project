@@ -63,15 +63,15 @@ const Tables = (acnhors_data) => {
 
         );
       if(exist.length > 0){
-        return <td style={{backgroundColor:"green" ,color:"green"}}>xx</td>
+        return <td style={{backgroundColor:"green" ,color:"green"}}>xxx</td>
       }else if(exist1.length > 0){
-        return <td style={{backgroundColor:"yellow" ,color:"yellow"}}>xx</td>
+        return <td style={{backgroundColor:"yellow" ,color:"yellow"}}>xxx</td>
       }else if(exist2.length > 0){
-        return <td style={{backgroundColor:"orange" ,color:"orange"}}>xx</td>
+        return <td style={{backgroundColor:"orange" ,color:"orange"}}>xxx</td>
       }else if(exist3.length > 0){
-        return <td style={{backgroundColor:"orangered" ,color:"orangered"}}>xx</td>
+        return <td style={{backgroundColor:"orangered" ,color:"orangered"}}>xxx</td>
       }
-      return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xx</td>
+      return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xxx</td>
     }
     
 

@@ -77,10 +77,10 @@ const Parameters = () => {
 
     function checkValues(){
         console.log("checkValues");
-        if(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 100 && 
+        if(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 30 && 
             wallPara.height <= 30 && wallPara.height > 0 &&
             wallPara.width <= 150 && wallPara.width > 0 &&
-            wallPara.angle >= 90 && wallPara.angle <= 150){
+            wallPara.angle >= 30 && wallPara.angle <= 90){
                 wallParametersRequest();
                 return true;        
         }
@@ -178,7 +178,7 @@ const Parameters = () => {
                     </h2>                    
                     <InputGroup className="mb-3" >
                         <InputGroup.Text className="input-group-text" id="basic-addon1">Number of anchors</InputGroup.Text>
-                        <Form.Control type="number" placeholder="0-100" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeNumberOfAnchors} />
+                        <Form.Control type="number" placeholder="0-30" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeNumberOfAnchors} />
                     </InputGroup>
                     <div className="row ">  
                         
@@ -240,7 +240,7 @@ const Parameters = () => {
                     
                             <InputGroup className="mb-3" >
                                 <InputGroup.Text id="basic-addon8">Angle(Rad)</InputGroup.Text>
-                                <Form.Control id="FormControlAngel" type="number" placeholder="90 - 150" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngle}/>
+                                <Form.Control id="FormControlAngel" type="number" placeholder="30 - 90" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngle}/>
                             </InputGroup>
                         </div>
                     </div>
@@ -266,7 +266,7 @@ const Parameters = () => {
                         Wrong Parameters !
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
-                        * The maximum number of anchors is 100
+                        * The maximum number of anchors is 30
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
                         * The maximum height is 30m
@@ -275,7 +275,7 @@ const Parameters = () => {
                         * The maximum width is 150m
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
-                        * Angle should be betwen 90-150
+                        * Angle should be betwen 30-90
                     </Typography>
                     <Button variant="secondary" style={{float:'right'}} onClick={e => setOpen(false)}>Close</Button>
 
