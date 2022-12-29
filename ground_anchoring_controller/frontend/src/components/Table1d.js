@@ -72,10 +72,11 @@ const Table1d = (acnhors_data) => {
     }
 
     const fillTheSquare = (x,y) =>{
+      
       if (anchorsArray === null || anchorsArray === undefined){
         return <td style={{backgroundColor:"sienna" ,color:"sienna"}}>xxx</td>
       }
-      console.log(anchorsArray)
+      // console.log(anchorsArray)
       const exist = anchorsArray.filter(item => 
         ( item[1].x == x &&  Math.round(item[1].y) == y)
       );    
@@ -98,17 +99,15 @@ const Table1d = (acnhors_data) => {
         ( item[1].x-3 == x &&  item[1].y-1 == y)||( item[1].x-3 == x &&  item[1].y+0 == y)||
         ( item[1].x-3 == x &&  item[1].y+1 == y)||( item[1].x-3 == x &&  item[1].y+2 == y)
 
-        );
-      if(exist.length > 0){
-      console.log("exist "+exist[1])
-      }
-      if(exist1.length > 0){
-        console.log("exist1 "+exist1[1])
-        }
+        );  
+      
       if(exist.length > 0){
         return <td style={{backgroundColor:"green" ,color:"green"}}>xxx</td>
       }else if(exist1.length > 0){
-        return <td style={{backgroundColor:"sienna" , color:"white",textAlign:"center"}}>{Math.round(exist[0].y, 1)}</td>
+        let found ,foundy;
+        found = anchorsArray.find(element =>  Math.round(element[1].y) == y);   
+        foundy = found[1].y.toFixed(1);
+        return <td style={{backgroundColor:"sienna" , color:"white",textAlign:"center"}}>{foundy}</td>
       }else if(exist2.length > 0){
         return <td style={{backgroundColor:"sienna" ,color:"white"}}>m</td>
       }else if(exist3.length < 0){
