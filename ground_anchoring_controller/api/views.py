@@ -191,7 +191,23 @@ class getImage(APIView):
         with open('plot.jpg', "rb") as image_file:
             image_data = base64.b64encode(image_file.read()).decode('utf-8')
         return Response(image_data, status=status.HTTP_200_OK)
+
+class getHighMoment2d(APIView):
+    def post(self , request , format=None):
+        high_moment = 66666
+        return Response(high_moment, status=status.HTTP_200_OK)
     
+class getImage2(APIView):
+    def post(self , request , format=None):
+        with open('plot2.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+    
+class getImage3(APIView):
+    def post(self , request , format=None):
+        with open('plot3.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
        
     
             
