@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tables from './Tables';
 import Table1d from './Table1d';
+import Table2d from './Table2d';
 import LoadingDots from './Loading'
 import { Spinner } from 'react-bootstrap';
 //import { MDBSpinner } from 'mdb-react-ui-kit';
@@ -94,12 +95,12 @@ const FinalResult = () => {
                     </div>
                     <div className='row' style={{paddingTop:'20px',textAlign:'center',}}>
                         <h3 style={{color:'white'}}>Cost : <b style={{color:'white'}}>{numbersOfAnchors*2178} $</b></h3>
-                        { !isLoading && dimensional2d &&<h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>Loading..</b></h3>}
-                        { isLoading && dimensional2d && <h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>{quality} %</b></h3>}     
+                        { !isLoading && dimensional2d && false &&<h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>Loading..</b></h3>}
+                        { isLoading && dimensional2d && false&&<h3 style={{color:'white'}}>Quality : <b style={{color:'white'}}>{quality} %</b></h3>}     
                     </div>                                                  
                 </div>
                 <div className="col-8 center-Table">
-                    {  dimensional2d && (<Tables acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
+                    {  dimensional2d && (<Table2d acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
                     { !isLoading && <LoadingDots/>}
                     { !dimensional2d && isLoading &&
                         <Table1d acnhors_data={acnhors_data} style={{textAlign:'-webkit-center'}}/>}
