@@ -24,7 +24,7 @@ def roll_dice (height ,anchors_1 ):
 
 def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
     # Inputs & Tracking
-    num_simulations = 1000
+    num_simulations = 100
     anchors = []
     min_moment = 0
     # For loop to run for the number of simulations desired
@@ -43,7 +43,7 @@ def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
 
         # if this simulation give us better quality than take it
         moment = quality1d(height, deg, anchors_1)
-
+        print(moment)
         if moment < min_moment or not len(anchors):
             min_moment = moment 
             anchors = anchors_1.copy()
