@@ -7,6 +7,7 @@
 from numpy import * 
 from .wallPressure1d import *
 import random
+from .GradientDescent1d import cost_func
 
 # Creating Roll Anchor Function
 def roll_dice (height ,anchors_1 ):    
@@ -24,6 +25,8 @@ def roll_dice (height ,anchors_1 ):
 
 def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
     # Inputs & Tracking
+    wall = clWall(yMax=height , angleFromVerticalGrad=0) # TODO need to add deg
+
     num_simulations = 1000
     anchors = []
     min_moment = 0
@@ -42,9 +45,10 @@ def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
                 num_anchor += 1
 
         # if this simulation give us better quality than take it
-        moment = quality1d(height, deg, anchors_1)
+        moment = quality1d(wall, anchors_1 )
 
         if moment < min_moment or not len(anchors):
+            print(moment, " new  old ", min_moment)
             min_moment = moment 
             anchors = anchors_1.copy()
 

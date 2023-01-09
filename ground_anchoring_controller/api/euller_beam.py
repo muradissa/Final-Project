@@ -592,12 +592,9 @@ class clWall():
 				vxNoNeedHighestDiff=v_x_anchor
 				MyMath.graphDir(vx,f=ff,vy=[],kMin=4,kMax=4,dx=0.005,bMoreMax=True,sf="W",sTitle="Analytic solution: accurate w, numerical w''''' good for dx>0.005",vxNoNeedHighestDiff=vxNoNeedHighestDiff)#for smaller dx (0.001 and less) it is not enough accuracy: dx^4 is 10^(-12) 
 			
-			MomentMax, xArgMax = self.MomentMax_get(0.01,vvc,v_x_anchor)
-			# print("MomentMax="+str(MomentMax)+", xArgMax="+str(xArgMax))
+			MomentMax, xArgMax = self.MomentMax_get(0.1,vvc,v_x_anchor)
 			
-			if False:
-				vy2=self.vw2_get(vx,vvc,v_x_anchor)
-				y2_data = np.array(vy2)
+			
 			return x_data, y_data, MomentMax
 
 		def MomentMax_get(self,dx,vvc,v_x_anchor):#MomentMax,xArgMax=
@@ -707,7 +704,7 @@ class clWall():
 				ix+=1
 			# print("MomentMax="+str(MomentMax)+", xArgMax="+str(xArgMax))
 			return MomentMax,xArgMax
-		def vw_make(self):
+		def vw_make(self, print_to_file=True):
 			# print("clBeamNumerical.vw_make...")
 			n = len(self.vx)
 			v_b=[]
@@ -716,7 +713,10 @@ class clWall():
 			#vix=[]
 			u=0
 			MyMath=clMyMath()
+			
+			
 			for ix in range(n):
+
 				x=self.vx[ix]
 				if (4 in self.vvIndex[ix]) and not (-1 in self.vvIndex[ix]):
 					# w'''' = q(x)/(EI)
@@ -760,10 +760,13 @@ class clWall():
 						vv_A[u][ix-1+i]=c*vcf[i]
 					v_b[u]=0
 					u+=1
-			bPrint=False
 
-			MyMath.printMatrixToFile(vv_A,"A.txt")
-			MyMath.printVectorToFile(v_b,"b.txt")
+			
+			bPrint=False
+			if print_to_file:
+				MyMath.printMatrixToFile(vv_A,"A.txt")
+				MyMath.printVectorToFile(v_b,"b.txt")
+
 			if bPrint:
 				print("nu="+str(u))
 				print("vx="+str(self.vx))
@@ -773,7 +776,10 @@ class clWall():
 				print("A="+str(vv_A[u-5:]))
 				print("b="+str(v_b))
 				print("Solving Ax=b...")
+			from datetime import datetime
+			print(datetime.now()," 2")
 			self.vw = np.linalg.solve(vv_A, v_b)
+			print(datetime.now()," 3")
 			if bPrint:
 				print("Solving Ax=b...Done")
 				for i in range(n):
@@ -804,17 +810,18 @@ class clWall():
 		MyMath=clMyMath()
 		
 		
-		bA=False#False#
+		bA=True#False#
 		if bA:
 			BeamAnalytical=self.clBeamAnalytical(self)
 			x_data, y_data, max_moment=BeamAnalytical.xy_get(anchors, 100, bGraph=drew_graph)
 			MyMath.testSol(x_data, y_data, kMin=0, kMax=4,sf="w", drew_graph=drew_graph, sTitle="Analytic solution: for selected points only (no w''''in anchors and in the end)", vxNoNeedHighestDiff=anchors)
 
-		bN=True#False#
+		bN=False#False#
 		if bN:
+			
 			BeamNumerical=self.clBeamNumerical(self,1000)#,4)#10000)
 			BeamNumerical.vvIndex_make(anchors)
-			x_data,y_data=BeamNumerical.vw_make()
+			x_data,y_data=BeamNumerical.vw_make(print_to_file=drew_graph)
 			max_moment, x_place = BeamNumerical.MomentMax_get()
 			MyMath.testSol(x_data,y_data,kMin=0,kMax=4,sf="w", drew_graph=drew_graph, sTitle="Numerical solution: for selected points only (no w''''in anchors and in the end)",vxNoNeedHighestDiff=anchors)
 

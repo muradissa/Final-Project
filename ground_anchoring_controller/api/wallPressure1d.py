@@ -74,12 +74,15 @@ def covert_matrix_presure_to_number1d(wall_presure):
     return sum(wall_presure)
 
 
-def quality1d (height, deg, anchors):
+def quality1d(wall: clWall, anchors):
+    
     anchors_x =[]
     for anchor in anchors:
         anchors_x.append(anchor['y'])
 
-    res = start_euller_beam(height, deg, anchors_x, save_plot=False)  
+    # beam = wall.clBeamAnalytical(wall)
+    # x, y, moment = beam.xy_get(anchors_x, 300, bGraph=False)
+    # res = start_euller_beam(height, deg, anchors_x, save_plot=False)  
 
-    return res
+    return round(abs(wall.testBeam(anchors=anchors_x, drew_graph=False)), 2)
     
