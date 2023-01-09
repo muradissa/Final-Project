@@ -4,24 +4,46 @@ import matplotlib.pyplot as plt
 from .euller_beam import *
 # add h to global and import it
 
-def cost_func(h, v_x_anchor):
+# def cost_func(h, v_x_anchor):
+#     dx = 0.001
+#     beam = clBeam(h , 90)
+#     vvc = beam.vvc_get(v_x_anchor)
+#     ix = 0
+#     x = 0
+#     m = 0
+#     while x <= h:
+#         iInterval=beam.iInterval_get(x,v_x_anchor)
+#         vc = vvc[iInterval*4:iInterval*4 + 4]
+#         w2=beam.ww2(x,vc)
+#         if ix == 0 or abs(w2) > m :
+#             m = abs(w2)
+#         x += dx
+#         ix += 1
+
+#     return m*beam.E_Ic
+
+
+def cost_func(wall: clWall, v_x_anchor):
     dx = 0.001
-    beam = clBeam(h , 90)
+    beam = wall.clBeamAnalytical(wall)
     vvc = beam.vvc_get(v_x_anchor)
+
     ix = 0
     x = 0
     m = 0
-    while x <= h:
+    while x <= beam.Wall.h:
+
         iInterval=beam.iInterval_get(x,v_x_anchor)
         vc = vvc[iInterval*4:iInterval*4 + 4]
-        w2=beam.ww2(x,vc)
-        if ix == 0 or abs(w2) > m :
-            m = abs(w2)
+        
+        moment=beam.w2_get(x=x, vvc=vvc, v_x_anchor=v_x_anchor)
+
+        if ix == 0 or abs(moment) > m :
+            m = abs(moment)
         x += dx
         ix += 1
 
-    return m*beam.E_Ic
-
+    return m
 
 # def ggg(vx):
 #     return (vx[0] - 2)**2 + (vx[1] - 5)**2 
@@ -52,11 +74,13 @@ def init_solution(h,n):
 
 def gradient_descent(h, vx, f, b_min, dx):
     # print("gradient_descent  ", h, vx, f, b_min, dx)
-    f0 = f(h, vx)
+    
+    wall = clWall(yMax=h , angleFromVerticalGrad=0) #need to add deg
+    f0 = f(wall, vx)
     dx_min = 0.01
     n = len(vx)
     while dx > dx_min:
-            
+        print(dx)
         b = True
         while b:
             vdf = []
@@ -69,7 +93,7 @@ def gradient_descent(h, vx, f, b_min, dx):
                     vxi.append(vx[j])
                 
                 vxi[i] += dx
-                dy = (f(h, vxi) - f0) / dx
+                dy = (f(wall, vxi) - f0) / dx
                 y += dy**2
                 vdf.append(dy)
             
@@ -80,7 +104,7 @@ def gradient_descent(h, vx, f, b_min, dx):
             for i in range(n):
                 vx_new.append(vx[i] + sign * dx * vdf[i] / y)
             
-            f1 = f(h, vx_new)
+            f1 = f(wall, vx_new)
             if b_min:
                 b = f1 < f0
             else:
