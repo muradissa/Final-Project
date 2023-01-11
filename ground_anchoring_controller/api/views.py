@@ -8,7 +8,6 @@ from rest_framework.response import Response
 import json
 from .equalDistance import *
 from .monteCarlo import *
-from .equalDistance1d import *
 from .monteCarlo1d import *
 from .euller_beam import *
 import base64
@@ -124,7 +123,10 @@ class startSimulation(APIView):
         global quality1
 
         anchors1 = []
-        
+
+###############################################################################################################################
+########################################################## 2D #################################################################
+###############################################################################################################################
         if(dimensional_type == '2'):
             #Manually
             if(strategy_type == '1'):
@@ -132,11 +134,14 @@ class startSimulation(APIView):
                 quality1 = quality(height1 , width1 , anchors1)            
             #Equal Distance 
             if(strategy_type == '2'): # number_of_anchors 
-                result ,quality1 = createEqualDistance(height1,width1,number_Of_Anchors1)     
+                result = createEqualDistance(height1,width1,number_Of_Anchors1)     
             #Monte carlo
             if(strategy_type == '3'):
-                result ,quality1 = createAncorsWithMonteCarlo(height1,width1,number_Of_Anchors1)
-       
+                result = createAncorsWithMonteCarlo(height1,width1,number_Of_Anchors1)
+
+###############################################################################################################################
+########################################################## 1D #################################################################
+###############################################################################################################################
         if(dimensional_type == '1'):
             # input(f"number of anchors = {number_Of_Anchors1}")
             #Manually
@@ -162,7 +167,7 @@ class startSimulation(APIView):
             print("Number of anchors startSimulation : " ,number_Of_Anchors1)
             #optimization
             if(optimization_type == '2'):
-                moment, x_anchors = gradient_descent(height1, anchors2, cost_func, True, 1)
+                x_anchors = gradient_descent_1d(height1, anchors2, angle1, cost_func, True, 1)
                 for index in range(len(x_anchors)):
                     anchors1.append({'id':index+1, 'x': 0, 'y':x_anchors[index]})
                 result = anchors1

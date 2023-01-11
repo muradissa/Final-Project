@@ -45,19 +45,10 @@ def cost_func(wall: clWall, v_x_anchor):
 
     return m
 
-# def ggg(vx):
-#     return (vx[0] - 2)**2 + (vx[1] - 5)**2 
-
-# def test():
-#     vx = [0,0]
-#     f_min, vx_best = gradient_descent(vx, ggg, True, 0.001)
-#     print(f"f_min = {f_min}")
-#     print(f"vx_best = {vx_best}")
-#     return
 
 def test_wall(n):
     vx = init_solution(10,n)
-    f_min, vx_best = gradient_descent(10, vx, cost_func, True, 1)
+    f_min, vx_best = gradient_descent_1d(10, vx, cost_func, True, 1)
     print(f"f_min = {f_min}")
     print(f"vx_best = {vx_best}")
     return
@@ -72,10 +63,9 @@ def init_solution(h,n):
 
     return vx
 
-def gradient_descent(h, vx, f, b_min, dx):
-    # print("gradient_descent  ", h, vx, f, b_min, dx)
+def gradient_descent_1d(h, vx, deg, f, b_min, dx):
     
-    wall = clWall(yMax=h , angleFromVerticalGrad=0) #need to add deg
+    wall = clWall(yMax=h , angleFromVerticalGrad=deg) #need to add deg
     f0 = f(wall, vx)
     dx_min = 0.01
     n = len(vx)
@@ -116,6 +106,6 @@ def gradient_descent(h, vx, f, b_min, dx):
 
         dx = dx / 2
 
-    return f0, vx
+    return vx
             
 

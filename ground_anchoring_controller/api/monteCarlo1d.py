@@ -5,7 +5,7 @@
 '''
 # Importing Packages
 from numpy import * 
-from .wallPressure1d import *
+from .quality import *
 import random
 from .GradientDescent1d import cost_func
 
@@ -25,7 +25,7 @@ def roll_dice (height ,anchors_1 ):
 
 def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
     # Inputs & Tracking
-    wall = clWall(yMax=height , angleFromVerticalGrad=0) # TODO need to add deg
+    wall = clWall(yMax=height , angleFromVerticalGrad=deg) # TODO need to add deg
 
     num_simulations = 1000
     anchors = []

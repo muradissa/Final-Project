@@ -80,7 +80,7 @@ const Parameters = () => {
         if(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 30 && 
             wallPara.height <= 30 && wallPara.height > 0 &&
             wallPara.width <= 150 && wallPara.width > 0 &&
-            wallPara.angle >= 30 && wallPara.angle <= 90){
+            wallPara.angle >= 0 && wallPara.angle <= 60){
                 wallParametersRequest();
                 return true;        
         }
@@ -105,11 +105,11 @@ const Parameters = () => {
             });
         }
         if (dimensionalType == '1'){
-            if(wallPara.angle !=90){
+            if(wallPara.angle !=0){
                 localStorage.setItem("angle", wallPara.angle);
             }else{
-                document.getElementById('FormControlAngel').value = '90';
-                wallPara.angle=90;
+                document.getElementById('FormControlAngel').value = '0';
+                wallPara.angle=0;
                 localStorage.setItem("angle", wallPara.angle);
             }
               
@@ -240,7 +240,7 @@ const Parameters = () => {
                     
                             <InputGroup className="mb-3" >
                                 <InputGroup.Text id="basic-addon8">Angle(Rad)</InputGroup.Text>
-                                <Form.Control id="FormControlAngel" type="number" placeholder="30 - 90" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngle}/>
+                                <Form.Control id="FormControlAngel" type="number" placeholder="0 - 60" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAngle}/>
                             </InputGroup>
                         </div>
                     </div>
@@ -275,7 +275,7 @@ const Parameters = () => {
                         * The maximum width is 150m
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
-                        * Angle should be betwen 30-90
+                        * Angle should be betwen 0-60
                     </Typography>
                     <Button variant="secondary" style={{float:'right'}} onClick={e => setOpen(false)}>Close</Button>
 

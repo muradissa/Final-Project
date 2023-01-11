@@ -5,7 +5,7 @@
 '''
 # Importing Packages
 from numpy import * 
-from .wallPresure import *
+from .quality import *
 import random
 
 # Creating Roll Anchor Function
