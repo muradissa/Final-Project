@@ -844,22 +844,24 @@ class clWall():
 		if index==10.5:
 			v_xy_anchor=[[3,10],[4,10],[5,10],[6,10],[7,10]]
 		return v_xy_anchor
-	def testWall(self, v_xy_anchor):
+	def testWall(self, v_xy_anchor = [], print_all=True):
 		WallNumerical=self.clWallNumerical(self,nx=100,ny=100)#,nx=4,ny=4)#,nx=50,ny=50)#
-		vvcc=WallNumerical.vvcc_get()
-		# v_xy_anchor=self.v_xy_anchor_get(5.5)
+		# vvcc=WallNumerical.vvcc_get()
+		# v_xy_anchor=self.v_xy_anchor_get(0)
 
 		# if the borders acts like ground - False
 		# True -> the wall acts cycle
 		bLoop=False
 		WallNumerical.vvvIndex_make(v_xy_anchor,bLoop)
-		WallNumerical.vvw_make(bLoop)
-		WallNumerical.drewGraphs(v_xy_anchor)
+		WallNumerical.vvw_make(bLoop, print_all)
+		if print_all:
+			WallNumerical.drewGraphs(v_xy_anchor)
 	class clWallNumerical():
-		def __init__(self,Wall,nx=10,ny=10):
-			self.Wall=Wall
-			self.xMax=self.Wall.xMax
-			self.yMax=self.Wall.yMax
+		def __init__(self,Wall,nx=10,ny=10, print_all=True):
+			self.Wall = Wall
+			self.xMax = self.Wall.xMax
+			self.yMax = self.Wall.yMax
+			self.print_all = print_all
 
 			self.vx = []
 			for ix in range(nx+1):
@@ -870,7 +872,7 @@ class clWall():
 				self.vy.append(float(iy)*self.yMax/ny)
 				
 				
-			self.bSym=True#with false it is working wrong
+			self.bSym = True#with false it is working wrong
 			
 			self.vvw = [[0 for col in range(ny+1)] for row in range(nx+1)]
 			self.dx=float(self.xMax)/nx
@@ -934,7 +936,7 @@ class clWall():
 				self.vvvIndex[ix][0].append(0)#w=0
 				self.vvvIndex[ix][1].append(0)#w=0
 				ix+=1
-			
+
 			if bLoop:
 				#fourth derivatives => need four more on y => need (nx+1)*4 border coditions
 				#(nx+1)*2
@@ -1068,8 +1070,7 @@ class clWall():
 				ix+=1
 			# print("MomentMax="+str(MomentMax)+", xArgMax="+str(xArgMax))
 			return MomentMax,xArgMax
-		def vvw_make(self,bLoop):
-			# print("clWallNumerical.vvw_make...")
+		def vvw_make(self, bLoop, print_all):
 			nx=len(self.vx)-1
 			ny=len(self.vy)-1
 			n = (nx+1)*(ny+1)
@@ -1130,7 +1131,8 @@ class clWall():
 							vv_A[u][iVar]=float(vc3[j])/self.dy**3
 						v_b[u]=0
 						u+=1
-			bPrint=(ny<=10)#True#False#
+
+			bPrint=False
 			if bPrint:
 				MyMath.printMatrixToFile(vv_A,"A.txt")
 				MyMath.printVectorToFile(v_b,"b.txt")
@@ -1138,32 +1140,28 @@ class clWall():
 				print("vx="+str(self.vx))
 				print("vIndex="+str(self.vvvIndex))
 				print("nu="+str(u))
-				#print("A="+str(vv_A[:5]))
-				#print("A="+str(vv_A[u-5:]))
 				print("A="+str(vv_A))
 				print("b="+str(v_b))
 				print("Sobving Ax=b...")
-			MyMath.printMatrixToFile(self.vvvIndex,"vvvIndex.txt")
+			
+			if print_all:
+				MyMath.printMatrixToFile(self.vvvIndex,"vvvIndex.txt")
 			
 			vVar= np.linalg.solve(vv_A, v_b)
+			
 			iVar=0
 			for ix in range(nx+1):
 				for iy in range(ny+1):
 					self.vvw[ix][iy]=vVar[iVar]
 					iVar+=1
-			MyMath.printMatrixToFile(self.vvw,"ww.txt")
+			
+			if print_all:
+				MyMath.printMatrixToFile(self.vvw,"ww.txt")
+
 			if bPrint:
 				print("Sobving Ax=b...Done")
-				#for i in range(n):
-				#	Aw=0
-				#	for j in range(n):
-				#		Aw+=vv_A[i][j]*self.vw[j]
-				#	print("i="+str(i)+", d="+str(Aw-v_b[i])+", Aw="+str(Aw)+", b="+str(v_b[i]))
 				print("vvw="+str(self.vvw))
-			#x_data = np.array(self.vx)
-			#y_data = np.array(self.vw)
-			# print("clWallNumerical.vvw_make...Done")
-			#return x_data,y_data
+			
 		def drewGraphs_XY_get(self):#X, Y =
 			#N = 100
 			#X, Y = np.mgrid[-3:3:complex(0, N), -2:2:complex(0, N)]
@@ -1225,14 +1223,6 @@ class clWall():
 			return pc,Zmin<Zmax
 		def drewGraphs(self,v_xy_anchor=[]):
 			MyMath=clMyMath()
-			#print(X[0][0])
-			#print(str(Z))
-			#x=1/0
-			
-			
-			#print(Z)
-			
-			#Z=self.w_get(X,Y)
 			
 			fig, ax = plt.subplots(1, 1+3+3)
 			
@@ -1654,13 +1644,17 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
 
 	return  round(abs(Wall.testBeam(anchors=anchors, drew_graph=save_plot)), 2) # max moment
 
+def start_wall_test(width, height, anchors, print_all):
+	Wall=clWall(xMax=width, yMax=height)
+
+	Wall.testWall(v_xy_anchor=anchors, print_all=print_all)
 
 def test():
 	MyMath=clMyMath()
 
 	Wall=clWall()
-	Wall.testBeam()
-	Wall.testWall()
+	# Wall.testBeam()
+	Wall.testWall(print_all=False)
 	if False:
 		for k in range(4+1):
 			MyMath.vcf_get(k)
@@ -1669,3 +1663,14 @@ def test():
 		print(str(MyMath.vvcf_get(1,0)))
 		print(str(MyMath.vvcf_get(1,1)))
 		print(str(MyMath.vvcf_get(2,2)))
+
+
+# from equalDistance import createEqualDistance
+# anchors = createEqualDistance(width=10, height=6, number_of_points_row=3, number_of_points_col=3)
+# anchors_xy = []
+# for anchor in anchors:
+# 	anchors_xy.append([anchor["x"], anchor["y"]])
+
+# print(anchors_xy)
+
+# start_wall_test(width=10, height=6, anchors=anchors_xy, print_all=True)
