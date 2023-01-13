@@ -10,7 +10,7 @@ from .equalDistance import *
 from .monteCarlo import *
 from .monteCarlo1d import *
 from .euller_beam import *
-from .euller_beam2d import *
+# from .euller_beam2d import *
 import base64
 from .GradientDescent1d import *
 
@@ -211,12 +211,12 @@ class getHighMoment2d(APIView):
     def post(self , request , format=None):
         global high_moment ,anchors1   ,height1 , width1  
         anchors2 =[]
+        print("get high moment , anchors : ", anchors1)
         for anchor in anchors1:
             abc=[anchor['x'],anchor['y']]
             anchors2.append(abc)
             
-        high_moment = start_wall_test2dd(width1, height1, anchors2, True)
-        high_moment = 66
+        high_moment = start_wall_test(width1, height1, anchors2, True)
         return Response(high_moment, status=status.HTTP_200_OK)
     
 class getImage2(APIView):

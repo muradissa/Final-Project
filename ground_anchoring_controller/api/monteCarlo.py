@@ -25,7 +25,7 @@ def roll_dice (height , width,anchors_1 ):
 
 def createAncorsWithMonteCarlo(height , width,max_num_of_anchors):
     # Inputs & Tracking
-    num_simulations = 1000
+    num_simulations = 2
     anchors = []
     quality_1 = 0
     # For loop to run for the number of simulations desired
@@ -42,11 +42,14 @@ def createAncorsWithMonteCarlo(height , width,max_num_of_anchors):
             if new_anchor:
                 anchors_1.append({'id' : num_anchor+1 , 'x' : x , 'y' : y})
                 num_anchor += 1
+        # Wall=clWall(xMax=width, yMax=height)
+        # # if this simulation give us better quality than take it
+        # quality_2 = quality(height , width,anchors_1)
 
         # if this simulation give us better quality than take it
-        quality_2 = quality(height , width,anchors_1)
-        if (quality_2 < quality_1):
+        quality_2 = quality(clWall(xMax=width, yMax=height),anchors_1)
+        if (quality_2 < quality_1)or not len(anchors) :
             quality_1 = quality_2 
             anchors = anchors_1.copy()
             
-    return anchors , quality_1
+    return anchors 

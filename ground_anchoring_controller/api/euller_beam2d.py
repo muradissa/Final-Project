@@ -1001,6 +1001,7 @@ class clWall():
                 if i==5:
                     Z=self.drewGraphs_Z_w2_get(5)
                     MyMath.printMatrixToFile(Z,"mmyy.txt")
+                   
                     sTitle="Myy"
                 if i==6:
                     Z=self.drewGraphs_Z_w2_get(6)

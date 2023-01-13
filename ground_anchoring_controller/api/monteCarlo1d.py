@@ -51,5 +51,5 @@ def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
             print(moment, " new  old ", min_moment)
             min_moment = moment 
             anchors = anchors_1.copy()
-
+    
     return anchors 

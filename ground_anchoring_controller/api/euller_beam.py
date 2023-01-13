@@ -856,6 +856,10 @@ class clWall():
 		WallNumerical.vvw_make(bLoop, print_all)
 		if print_all:
 			WallNumerical.drewGraphs(v_xy_anchor)
+		
+		#print(WallNumerical.MomentMax_wall_get())
+	
+		return WallNumerical.MomentMax_wall_get()
 	class clWallNumerical():
 		def __init__(self,Wall,nx=10,ny=10, print_all=True):
 			self.Wall = Wall
@@ -1037,6 +1041,7 @@ class clWall():
 			w2-=c*self.vvw[ix-i0+1][iy-j0]
 			w2+=c*self.vvw[ix-i0][iy-j0]
 			return w2
+
 		def Moment_get(self,ix,iy,index):
 			#Mxx(x,y)=-D(w’’xx(x,y)-v w’’yy(x,y))
 			#Myy(x,y)=-D(w’’yy(x,y)-v w’’xx(x,y))
@@ -1046,6 +1051,17 @@ class clWall():
 			if index==2:
 				return -self.Wall.dd*(self.w2_get(ix,iy,2)-self.Wall.v*self.w2_get(ix,iy,1))
 			return -self.Wall.dd*(1-self.Wall.v)*self.w2_get(ix,iy,3)
+
+		def MomentMax_wall_get(self):
+			m_max = 0
+   
+			for ix in range(len(self.vx)):
+				for iy in range(len(self.vy)):
+					m = self.Moment_get(ix,iy,1) + self.Moment_get(ix,iy,2) + self.Moment_get(ix,iy,3)
+					if abs(m) > m_max:
+						m_max = abs(m)
+			return m_max
+
 		def MomentMax_get(self):#MomentMax,xArgMax=
 			MyMath=clMyMath()
 			MyMath.y_start(self.vx,self.vw)
@@ -1648,7 +1664,8 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
 def start_wall_test(width, height, anchors, print_all):
 	Wall=clWall(xMax=width, yMax=height)
 
-	Wall.testWall(v_xy_anchor=anchors, print_all=False)
+	return round(abs(Wall.testWall(v_xy_anchor=anchors, print_all=print_all)),2)
+	
 	# print("High moment in 2d : ",round(abs(Wall.testWall(v_xy_anchor=anchors, print_all=print_all)), 2) )
 
 def test():
