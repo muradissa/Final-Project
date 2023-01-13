@@ -577,6 +577,22 @@ class clWall():
         WallNumerical.vvvIndex_make(v_xy_anchor,bLoop)
         WallNumerical.vvw_make(bLoop)
         WallNumerical.drewGraphs(v_xy_anchor)
+        
+    def testWall2d(self, v_xy_anchor = [], print_all=True):
+        WallNumerical=self.clWallNumerical(self,nx=100,ny=100)#,nx=4,ny=4)#,nx=50,ny=50)#
+		# vvcc=WallNumerical.vvcc_get()
+		# v_xy_anchor=self.v_xy_anchor_get(0)
+
+		# if the borders acts like ground - False
+		# True -> the wall acts cycle
+        vvcc=WallNumerical.vvcc_get()
+        bLoop=True
+        WallNumerical.vvvIndex_make(v_xy_anchor,bLoop)
+        WallNumerical.vvw_make(bLoop)
+        WallNumerical.drewGraphs(v_xy_anchor)
+        # if print_all:
+        #     WallNumerical.drewGraphs(v_xy_anchor)
+   
     class clWallNumerical():
         def __init__(self,Wall,nx=10,ny=10):
             self.Wall=Wall
@@ -993,7 +1009,7 @@ class clWall():
                 if b:
                     fig.colorbar(pc, ax=ax[i])
             plt.savefig("plot2.jpg")
-            plt.show()
+            #plt.show()
             
             
             if False:
@@ -1168,7 +1184,8 @@ class clMyMath():
    
         plt.legend()
         plt.savefig("plot3.jpg")
-        plt.show()
+        print("save plot 3")
+        #plt.show()
     def testSol(self,x_data,y_data,kMin=0,kMax=4,sf="f",sTitle="sTitle",vxNoNeedHighestDiff=[]):#x1_data,y1_data
         MyMath=clMyMath()
         vx=x_data.tolist()#ordered, equal dist
@@ -1267,7 +1284,7 @@ class clMyMath():
         
         plt.legend()
         plt.savefig("plot4.jpg")
-        plt.show()
+        #plt.show()
         
             #x1_data,y1_data,x4_data,y4_data=
         
@@ -1384,7 +1401,15 @@ def test():
         print(str(MyMath.vvcf_get(1,0)))
         print(str(MyMath.vvcf_get(1,1)))
         print(str(MyMath.vvcf_get(2,2)))
-test()
+
+
+
+def start_wall_test2dd(width, height, anchors, print_all):
+    MyMath=clMyMath()
+    Wall=clWall(xMax=width, yMax=height)
+    print("2 anchors :",anchors)
+
+    Wall.testWall2d(v_xy_anchor=anchors, print_all=False)
 #
 #cd C:/Frenkel/Braude/2021-2022b/BetonnieStenkiAnkeri/prog/
 #python "C:/Frenkel/Braude/2021-2022b/BetonnieStenkiAnkeri/prog/euller_beam.py"

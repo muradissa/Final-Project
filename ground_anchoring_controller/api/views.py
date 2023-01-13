@@ -10,6 +10,7 @@ from .equalDistance import *
 from .monteCarlo import *
 from .monteCarlo1d import *
 from .euller_beam import *
+from .euller_beam2d import *
 import base64
 from .GradientDescent1d import *
 
@@ -141,12 +142,12 @@ class startSimulation(APIView):
                 quality1 = quality(height1 , width1 , anchors1)            
             #Equal Distance 
             if(strategy_type == '2'): # number_of_anchors 
-                result = createEqualDistance(height1,width1, anchorsInRow, anchorsInCol)
-                print("result")
-                print(result)     
+                result = createEqualDistance(height1,width1, anchorsInRow, anchorsInCol)  
             #Monte carlo
             if(strategy_type == '3'):
                 result = createAncorsWithMonteCarlo(height1,width1,number_Of_Anchors1)
+            
+            anchors1 = result
 
 ###############################################################################################################################
 ########################################################## 1D #################################################################
@@ -208,7 +209,14 @@ class getImage(APIView):
 
 class getHighMoment2d(APIView):
     def post(self , request , format=None):
-        high_moment = 66666
+        global high_moment ,anchors1   ,height1 , width1  
+        anchors2 =[]
+        for anchor in anchors1:
+            abc=[anchor['x'],anchor['y']]
+            anchors2.append(abc)
+            
+        high_moment = start_wall_test2dd(width1, height1, anchors2, True)
+        high_moment = 66
         return Response(high_moment, status=status.HTTP_200_OK)
     
 class getImage2(APIView):

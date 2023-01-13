@@ -100,7 +100,7 @@ const FinalResult = () => {
                     </div>                                                  
                 </div>
                 <div className="col-8 center-Table">
-                    {  dimensional2d && (<Table2d acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
+                    {  dimensional2d&& isLoading && (<Table2d acnhors_data={acnhors_data} style={{textAlign:'-webkit-center',}}/>)}
                     { !isLoading && <LoadingDots/>}
                     { !dimensional2d && isLoading &&
                         <Table1d acnhors_data={acnhors_data} style={{textAlign:'-webkit-center'}}/>}

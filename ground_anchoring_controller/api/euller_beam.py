@@ -1261,7 +1261,8 @@ class clWall():
 				if b:
 					fig.colorbar(pc, ax=ax[i])
 			
-			plt.show()
+			plt.savefig("plot2.jpg")
+			#plt.show()
 			
 			
 			if False:
@@ -1436,7 +1437,7 @@ class clMyMath():
 				s+="'"
 			plt.plot(x_data,y_data, label = s)
 		plt.legend()
-		plt.savefig("plot.jpg")
+		plt.savefig("plot3.jpg")
 
 	def testSol(self,x_data,y_data,kMin=0,kMax=4,sf="f", drew_graph=True,sTitle="sTitle",vxNoNeedHighestDiff=[]):#x1_data,y1_data
 		MyMath=clMyMath()
@@ -1535,7 +1536,7 @@ class clMyMath():
 			vvy_data.append(vy_data)
 		
 		plt.legend()
-		plt.show()
+		#plt.show()
 		
 			#x1_data,y1_data,x4_data,y4_data=
 		
@@ -1647,7 +1648,8 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
 def start_wall_test(width, height, anchors, print_all):
 	Wall=clWall(xMax=width, yMax=height)
 
-	Wall.testWall(v_xy_anchor=anchors, print_all=print_all)
+	Wall.testWall(v_xy_anchor=anchors, print_all=False)
+	# print("High moment in 2d : ",round(abs(Wall.testWall(v_xy_anchor=anchors, print_all=print_all)), 2) )
 
 def test():
 	MyMath=clMyMath()
