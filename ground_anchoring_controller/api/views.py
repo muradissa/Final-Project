@@ -28,6 +28,9 @@ quality1=0
 high_moment = 0
 anchors_1d =[]
 
+anchorsInRow = 0 
+anchorsInCol = 0
+
 
 # Create your views here.
 
@@ -53,16 +56,20 @@ class CreatWallView(APIView):
 
 
     def post(self , request , format=None):
-        global width1, height1 , number_Of_Anchors1, angle1
+        global width1, height1 , number_Of_Anchors1, angle1 ,anchorsInRow, anchorsInCol
 
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()   
         serializer = self.serializer_class(data = request.data)
         if serializer.is_valid():
+            
             height = serializer.data['height']  
             width = serializer.data['width']
             angle = serializer.data['angle']
             number_of_anchors = serializer.data['number_of_anchors']
+            anchorsInRow = serializer.data['anchorsInRow']
+            anchorsInCol = serializer.data['anchorsInCol']
+            
             width1 =width 
             height1 = height
             number_Of_Anchors1 = number_of_anchors
@@ -119,7 +126,7 @@ class startSimulation(APIView):
     
     def post(self , request , format=None):
         
-        global strategy_type , anchors1
+        global strategy_type , anchors1 ,anchorsInRow, anchorsInCol
         global quality1
 
         anchors1 = []
@@ -134,7 +141,9 @@ class startSimulation(APIView):
                 quality1 = quality(height1 , width1 , anchors1)            
             #Equal Distance 
             if(strategy_type == '2'): # number_of_anchors 
-                result = createEqualDistance(height1,width1,number_Of_Anchors1)     
+                result = createEqualDistance(height1,width1, anchorsInRow, anchorsInCol)
+                print("result")
+                print(result)     
             #Monte carlo
             if(strategy_type == '3'):
                 result = createAncorsWithMonteCarlo(height1,width1,number_Of_Anchors1)

@@ -34,3 +34,5 @@ def createEqualDistance(height, width, number_of_points_row, number_of_points_co
             id +=1
 
     return anchors
+
+

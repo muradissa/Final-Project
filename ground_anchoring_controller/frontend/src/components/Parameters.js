@@ -17,11 +17,16 @@ function simulateNetworkRequest() {
 const Parameters = () => {
     const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
     const [isLoading, setLoading] = useState(false);
+    // new
+    const [isEqualDistance2d, setEqualDistance2d] = useState(false);
+    const [strategyType, setStrategyType] = useState(localStorage.getItem("strategyType2"));
     // const [isLoading2, setLoading2] = useState(false);
     const [dimensional2d, setDimensional2d] = useState(false);
     const navigate = useNavigate();
     const [anchorsPara] =useState({
         numbersOfAnchors:0,
+        anchorsInRow:0,
+        anchorsInCol:0,
         v:0.0,
         c:0.0,
         e:0,
@@ -35,7 +40,10 @@ const Parameters = () => {
 
     useEffect(() => {
         if(dimensionalType == '2'){
-            setDimensional2d(true)
+            setDimensional2d(true);
+            if(strategyType == 'Equal distance'){
+                setEqualDistance2d(true);
+            }
         }
     },[]);
 
@@ -57,6 +65,12 @@ const Parameters = () => {
       };
 
       async function wallParametersRequest () {
+
+        if(isEqualDistance2d){
+            anchorsPara.numbersOfAnchors = anchorsPara.anchorsInRow * anchorsPara.anchorsInCol
+            localStorage.setItem("numbersOfAnchors",anchorsPara.anchorsInRow * anchorsPara.anchorsInCol); 
+        }
+
         const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -65,6 +79,8 @@ const Parameters = () => {
             width: wallPara.width,
             angle: wallPara.angle,
             number_of_anchors: anchorsPara.numbersOfAnchors ,
+            anchorsInRow: anchorsPara.anchorsInRow,
+            anchorsInCol: anchorsPara.anchorsInCol,
           }),
         };
         await fetch("/api/create-wall", requestOptions)
@@ -88,6 +104,7 @@ const Parameters = () => {
         setOpen(true);
         return false;
     }
+    
 
     useEffect(() => {
         if (isLoading) {
@@ -111,9 +128,9 @@ const Parameters = () => {
                 document.getElementById('FormControlAngel').value = '0';
                 wallPara.angle=0;
                 localStorage.setItem("angle", wallPara.angle);
-            }
-              
+            }      
         }
+        
         
 
     }, [isLoading]);
@@ -158,6 +175,16 @@ const Parameters = () => {
         wallPara.angle = parseFloat (event.target.value);
         localStorage.setItem("angle", wallPara.angle);  
     }
+    // new
+    function handleChangeAnchorsInRow(event) {
+        anchorsPara.anchorsInRow = parseFloat (event.target.value);
+        localStorage.setItem("AnchorsInRow", anchorsPara.anchorsInRow);  
+    }
+    // new
+    function handleChangeAnchorsInCol(event) {
+        anchorsPara.anchorsInCol = parseFloat (event.target.value);
+        localStorage.setItem("AnchorsInCol", anchorsPara.anchorsInCol);  
+    }
 
     const enterTheAnchorsManaul = () =>{      
         if(localStorage.getItem("strategyType") === "1"){
@@ -175,15 +202,32 @@ const Parameters = () => {
                 <div className="col-12 col-sm-12 col-lg-3" >
                     <h2 className="anchors-parameters" style={{ justifyContent:'center',textAlign:'center'}}>
                         Anchors parameters
-                    </h2>                    
-                    <InputGroup className="mb-3" >
-                        <InputGroup.Text className="input-group-text" id="basic-addon1">Number of anchors</InputGroup.Text>
-                        <Form.Control type="number" placeholder="0-30" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeNumberOfAnchors} />
-                    </InputGroup>
+                    </h2>
+                    { !isEqualDistance2d &&                  
+                        <InputGroup className="mb-3" >
+                            <InputGroup.Text className="input-group-text" id="basic-addon1">Number of anchors</InputGroup.Text>
+                            <Form.Control type="number" placeholder="0-30" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeNumberOfAnchors} />
+                        </InputGroup>
+                    }  
+                    { isEqualDistance2d &&
+                        <div className="row ">  
+                            <div className="col-12 col-sm-12 col-lg-12">  
+                                <InputGroup className="mb-3" >
+                                    <InputGroup.Text id="basic-addon88">Anchors in row </InputGroup.Text>
+                                    <Form.Control placeholder="0" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAnchorsInRow} />
+                                </InputGroup>
+                            </div>
+                            <div className="col-12 col-sm-12 col-lg-12">  
+                                <InputGroup className="mb-3" >
+                                    <InputGroup.Text id="basic-addon99">Anchors in col</InputGroup.Text>
+                                    <Form.Control placeholder="0"  aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeAnchorsInCol}/>
+                                </InputGroup>
+                            </div>
+                        </div>
+                    }
+
+
                     <div className="row ">  
-                        
-
-
                         <div className="col-12 col-sm-12 col-lg-12">  
                             <InputGroup className="mb-3" >
                                 <InputGroup.Text id="basic-addon3">C : sand is liquidish</InputGroup.Text>
