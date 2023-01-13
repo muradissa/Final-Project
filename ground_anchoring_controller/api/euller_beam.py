@@ -1335,12 +1335,12 @@ def test():
 	Wall.testWall(print_all=False)
 
 
-from equalDistance import createEqualDistance
-anchors = createEqualDistance(width=10, height=6, number_of_points_row=3, number_of_points_col=3)
-anchors_xy = []
-for anchor in anchors:
-	anchors_xy.append([anchor["x"], anchor["y"]])
+# from equalDistance import createEqualDistance
+# anchors = createEqualDistance(width=10, height=6, number_of_points_row=3, number_of_points_col=3)
+# anchors_xy = []
+# for anchor in anchors:
+# 	anchors_xy.append([anchor["x"], anchor["y"]])
 
-print(anchors_xy)
+# print(anchors_xy)
 
-print(start_wall_test(width=10, height=6, anchors=anchors_xy, print_all=True))
+# print(start_wall_test(width=10, height=6, anchors=anchors_xy, print_all=True))

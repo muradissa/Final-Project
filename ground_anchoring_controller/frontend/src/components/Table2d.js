@@ -19,6 +19,13 @@ const Table2d = (acnhors_data) => {
     const [switchButton,setSwitchButton] = useState(true);
     const [img, setImg] = useState();
     const [img2, setImg2] = useState();
+    const [img3, setImg3] = useState();
+    const [img4, setImg4] = useState();
+    const [img5, setImg5] = useState();
+    const [img6, setImg6] = useState();
+    const [img7, setImg7] = useState();
+    const [GraphNum, setGraphNum] = useState("1");
+
 
     const fetchImage = async () => {
       const requestOptions = {
@@ -27,16 +34,42 @@ const Table2d = (acnhors_data) => {
         body: JSON.stringify({
         }),
       };
-      const res2 = await fetch("/api/plot-moment2",requestOptions)
+      const res1 = await fetch("/api/plot-moment1",requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setImg(data);
       });
-      const res3 = await fetch("/api/plot-moment3",requestOptions)
+      const res2 = await fetch("/api/plot-moment2",requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setImg2(data);
       });
+      const res3 = await fetch("/api/plot-moment3",requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setImg3(data);
+      });
+      const res4 = await fetch("/api/plot-moment4",requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setImg4(data);
+      });
+      const res5 = await fetch("/api/plot-moment5",requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setImg5(data);
+      });
+      const res6 = await fetch("/api/plot-moment6",requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setImg6(data);
+      });
+      const res7 = await fetch("/api/plot-moment7",requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setImg7(data);
+      });
+      
     };
 
     useEffect(() => {  
@@ -97,30 +130,95 @@ const Table2d = (acnhors_data) => {
         {moment != 0 &&
           <div className="row">
             <div className="col-6" >
-              <div className="row"  style={{ marginLeft:'35%',alignItems:"center"}}>
-                <div >
-                  <Stack direction="row" spacing={1} alignItems="center" size="lg" style={{ padding:"5px",paddingLeft:"00px"}} >
-                    <Typography style={{color:"white"}}>Plot 1</Typography>
-                    <Switch {...label} defaultChecked size="medium"  onChange={handleSwitchChange}/>
-                    <Typography style={{color:"white"}}>Plot 2</Typography>
-                  </Stack> 
+              <div className="row"  style={{alignItems:"center"}}>
+                <div className="radio-btn-container" style={{marginBottom:"0"}}>
+                  <div className="radio-btn" onClick={() => { setGraphNum("1");}} style={{
+                      background: GraphNum === "1" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "1"}/>
+                      W
+                  </div>
+                  <div className="radio-btn" onClick={() => {setGraphNum("2"); }} style={{
+                      background: GraphNum === "2" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "2"} />
+                      Wxy
+                  </div>
+                  <div className="radio-btn" onClick={() => { setGraphNum("3");}} style={{
+                      background: GraphNum === "3" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "3"}/>
+                      Wxx
+                  </div>
+                  <div className="radio-btn" onClick={() => { setGraphNum("4");}} style={{
+                      background: GraphNum === "4" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "4"}/>
+                      Wyy
+                  </div>   
+                </div>
+              </div>
+              <div className="row"  style={{alignItems:"center"}}>
+                <div className="radio-btn-container" style={{marginBottom:"0"}}>
+                  <div className="radio-btn" onClick={() => { setGraphNum("5");}} style={{
+                      background: GraphNum === "5" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "5"}/>
+                      Mxx
+                  </div>
+                  <div className="radio-btn" onClick={() => { setGraphNum("6");}} style={{
+                      background: GraphNum === "6" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "6"}/>
+                      Myy
+                  </div>
+                  <div className="radio-btn" onClick={() => { setGraphNum("7");}} style={{
+                      background: GraphNum === "7" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "7"}/>
+                      Mxy
+                  </div>      
                 </div>
               </div>
               <div className="row">
                 
-                { switchButton &&
+                { GraphNum === "1" &&
                   <div >
                   {/* <img src={img} alt="icons" /> */}
                   <img src={`data:image/jpg;base64,${img}`} style={{width:"100%"}} />
                 </div>
                 }
                 
-                { !switchButton &&
+                { GraphNum === "2" &&
                   <div >
                     {/* <img src={img} alt="icons" /> */}
                     <img src={`data:image/jpg;base64,${img2}`} style={{width:"100%"}} />
                   </div>
                 }
+                { GraphNum === "3" &&
+                  <div >
+                    {/* <img src={img} alt="icons" /> */}
+                    <img src={`data:image/jpg;base64,${img3}`} style={{width:"100%"}} />
+                  </div>
+                }
+                { GraphNum === "4" &&
+                  <div >
+                    {/* <img src={img} alt="icons" /> */}
+                    <img src={`data:image/jpg;base64,${img4}`} style={{width:"100%"}} />
+                  </div>
+                }
+                { GraphNum === "5" &&
+                  <div >
+                    {/* <img src={img} alt="icons" /> */}
+                    <img src={`data:image/jpg;base64,${img5}`} style={{width:"100%"}} />
+                  </div>
+                }
+                { GraphNum === "6" &&
+                  <div >
+                    {/* <img src={img} alt="icons" /> */}
+                    <img src={`data:image/jpg;base64,${img6}`} style={{width:"100%"}} />
+                  </div>
+                }
+                { GraphNum === "7" &&
+                  <div >
+                    {/* <img src={img} alt="icons" /> */}
+                    <img src={`data:image/jpg;base64,${img7}`} style={{width:"100%"}} />
+                  </div>
+                }
+                
               </div>
             </div>
             <div className="col-6">   

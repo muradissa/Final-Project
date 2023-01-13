@@ -218,16 +218,46 @@ class getHighMoment2d(APIView):
             
         high_moment = start_wall_test(width1, height1, anchors2, True)
         return Response(high_moment, status=status.HTTP_200_OK)
-    
+
+class getImage1(APIView):
+    def post(self , request , format=None):
+        with open('W.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+        
 class getImage2(APIView):
     def post(self , request , format=None):
-        with open('plot2.jpg', "rb") as image_file:
+        with open('Wxy.jpg', "rb") as image_file:
             image_data = base64.b64encode(image_file.read()).decode('utf-8')
         return Response(image_data, status=status.HTTP_200_OK)
     
 class getImage3(APIView):
     def post(self , request , format=None):
-        with open('plot3.jpg', "rb") as image_file:
+        with open('Wxx.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+    
+class getImage4(APIView):
+    def post(self , request , format=None):
+        with open('Wyy.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+    
+class getImage5(APIView):
+    def post(self , request , format=None):
+        with open('Mxx.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+    
+class getImage6(APIView):
+    def post(self , request , format=None):
+        with open('Myy.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)
+    
+class getImage7(APIView):
+    def post(self , request , format=None):
+        with open('Mxy.jpg', "rb") as image_file:
             image_data = base64.b64encode(image_file.read()).decode('utf-8')
         return Response(image_data, status=status.HTTP_200_OK)
        
