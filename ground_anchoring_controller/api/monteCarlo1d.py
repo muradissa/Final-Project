@@ -27,7 +27,7 @@ def createAncorsWithMonteCarlo1d(height, deg, max_num_of_anchors):
     # Inputs & Tracking
     wall = clWall(yMax=height , angleFromVerticalGrad=deg) # TODO need to add deg
 
-    num_simulations = 1000
+    num_simulations = 10000
     anchors = []
     min_moment = 0
     # For loop to run for the number of simulations desired

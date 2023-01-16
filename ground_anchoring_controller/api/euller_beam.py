@@ -1114,7 +1114,9 @@ class clMyMath():
 				s+="'"
 			plt.plot(x_data,y_data, label = s)
 		plt.legend()
-		plt.savefig("plot3.jpg")
+		plt.savefig("plot.jpg")
+		plt.close()
+
 
 	def testSol(self,x_data,y_data,kMin=0,kMax=4,sf="f", drew_graph=True,sTitle="sTitle",vxNoNeedHighestDiff=[]):#x1_data,y1_data
 		MyMath=clMyMath()
