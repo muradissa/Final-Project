@@ -28,6 +28,7 @@ class Wall(models.Model):
     number_of_anchors = models.IntegerField(null=False , default=100)
     anchorsInRow = models.IntegerField(null=False , default=0)
     anchorsInCol = models.IntegerField(null=False , default=0)
+    bloop = models.BooleanField(null=False , default=False)
 
     v = models.FloatField(null=False , default = 0.1)
     c = models.IntegerField(null=False , default = 1)  

@@ -25,7 +25,7 @@ class WallSerializer(serializers.ModelSerializer):
 class CreateWallSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wall
-        fields = ('height','width','angle','number_of_anchors','anchorsInRow','anchorsInCol')
+        fields = ('height','width','angle','number_of_anchors','anchorsInRow','anchorsInCol','bloop')
         
 
 class ParametersSerializer(serializers.ModelSerializer):

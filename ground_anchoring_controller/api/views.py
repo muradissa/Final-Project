@@ -31,6 +31,7 @@ anchors_1d =[]
 
 anchorsInRow = 0 
 anchorsInCol = 0
+bloop_global = False
 
 
 # Create your views here.
@@ -57,7 +58,7 @@ class CreatWallView(APIView):
 
 
     def post(self , request , format=None):
-        global width1, height1 , number_Of_Anchors1, angle1 ,anchorsInRow, anchorsInCol
+        global width1, height1 , number_Of_Anchors1, angle1 ,anchorsInRow, anchorsInCol,bloop_global
 
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()   
@@ -70,6 +71,8 @@ class CreatWallView(APIView):
             number_of_anchors = serializer.data['number_of_anchors']
             anchorsInRow = serializer.data['anchorsInRow']
             anchorsInCol = serializer.data['anchorsInCol']
+            bloop = serializer.data['bloop']
+            bloop_global = bloop
             
             width1 =width 
             height1 = height
@@ -209,14 +212,14 @@ class getImage(APIView):
 
 class getHighMoment2d(APIView):
     def post(self , request , format=None):
-        global high_moment ,anchors1   ,height1 , width1  
+        global high_moment ,anchors1   ,height1 , width1 ,bloop_global
         anchors2 =[]
         print("get high moment , anchors : ", anchors1)
         for anchor in anchors1:
             abc=[anchor['x'],anchor['y']]
             anchors2.append(abc)
             
-        high_moment = start_wall_test(width=width1, height=height1, bLoop=True, anchors=anchors2, print_all=True) # TODO add bloop to gui 
+        high_moment = start_wall_test(width=width1, height=height1, bLoop=bloop_global, anchors=anchors2, print_all=True) # TODO add bloop to gui 
         return Response(high_moment, status=status.HTTP_200_OK)
 
 class getImage1(APIView):
