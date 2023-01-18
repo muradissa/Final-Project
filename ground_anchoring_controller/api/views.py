@@ -201,9 +201,9 @@ class getHighMoment(APIView):
         anchors2 =[]
         for acnhor in anchors1:
             anchors2.append(acnhor['y'])
-        high_moment = start_euller_beam(height1, angle1, anchors2) 
+        high_moment = start_euller_beam(h=height1, deg=angle1, anchors=anchors2, both=True) 
         return Response(high_moment, status=status.HTTP_200_OK)
-    
+
 class getImage(APIView):
     def post(self , request , format=None):
         with open('plot.jpg', "rb") as image_file:
