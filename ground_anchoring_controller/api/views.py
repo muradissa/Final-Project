@@ -216,7 +216,7 @@ class getHighMoment2d(APIView):
             abc=[anchor['x'],anchor['y']]
             anchors2.append(abc)
             
-        high_moment = start_wall_test(width1, height1, anchors2, True)
+        high_moment = start_wall_test(width=width1, height=height1, bLoop=True, anchors=anchors2, print_all=True) # TODO add bloop to gui 
         return Response(high_moment, status=status.HTTP_200_OK)
 
 class getImage1(APIView):

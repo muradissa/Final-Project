@@ -508,25 +508,22 @@ class clWall():
 		if index==5.5:#0.3 mm, MomentMax=0.027*10^6
 			vx_anchors = [2,4,6,8,10]
 		return vx_anchors
-	def testBeam(self, anchors, drew_graph=True):
+	def testBeam(self, anchors, analytical=True, drew_graph=True):
 		self.start()
 
 		MyMath=clMyMath()
 
-		bA=True#False#
-		if bA:
+		if analytical:
 			BeamAnalytical=self.clBeamAnalytical(self)
 			x_data, y_data, max_moment=BeamAnalytical.xy_get(anchors, 100, bGraph=drew_graph)
 			MyMath.testSol(x_data, y_data, kMin=0, kMax=4,sf="w", drew_graph=drew_graph, sTitle="Analytic solution: for selected points only (no w''''in anchors and in the end)", vxNoNeedHighestDiff=anchors)
 
-		bN=False#False#
-		if bN:
-			
-			BeamNumerical=self.clBeamNumerical(self,1000)#,4)#10000)
-			BeamNumerical.vvIndex_make(anchors)
-			x_data,y_data=BeamNumerical.vw_make(print_to_file=drew_graph)
-			max_moment, x_place = BeamNumerical.MomentMax_get()
-			MyMath.testSol(x_data,y_data,kMin=0,kMax=4,sf="w", drew_graph=drew_graph, sTitle="Numerical solution: for selected points only (no w''''in anchors and in the end)",vxNoNeedHighestDiff=anchors)
+		# else:
+		# 	BeamNumerical=self.clBeamNumerical(self,1000)#,4)#10000)
+		# 	BeamNumerical.vvIndex_make(anchors)
+		# 	x_data,y_data=BeamNumerical.vw_make(print_to_file=drew_graph)
+		# 	max_moment, x_place = BeamNumerical.MomentMax_get()
+		# 	MyMath.testSol(x_data,y_data,kMin=0,kMax=4,sf="w", drew_graph=drew_graph, sTitle="Numerical solution: for selected points only (no w''''in anchors and in the end)",vxNoNeedHighestDiff=anchors)
 
 		return max_moment
 
@@ -547,14 +544,14 @@ class clWall():
 		if index==10.5:
 			v_xy_anchor=[[3,10],[4,10],[5,10],[6,10],[7,10]]
 		return v_xy_anchor
-	def testWall(self, v_xy_anchor = [], print_all=True):
+	def testWall(self, v_xy_anchor=[], bLoop=False, print_all=True):
 		WallNumerical=self.clWallNumerical(self,nx=100,ny=100)#,nx=4,ny=4)#,nx=50,ny=50)#
 		# vvcc=WallNumerical.vvcc_get()
 		# v_xy_anchor=self.v_xy_anchor_get(0)
 
 		# if the borders acts like ground - False
 		# True -> the wall acts cycle
-		bLoop=False
+		
 		WallNumerical.vvvIndex_make(v_xy_anchor,bLoop)
 		WallNumerical.vvw_make(bLoop, print_all)
 		if print_all:
@@ -1324,17 +1321,11 @@ def start_euller_beam(h, deg, anchors, save_plot=True):
 
 	return  round(abs(Wall.testBeam(anchors=anchors, drew_graph=save_plot)), 2) # max moment
 
-def start_wall_test(width, height, anchors, print_all):
+
+def start_wall_test(width, height, anchors, bLoop, print_all):
 	Wall=clWall(xMax=width, yMax=height)
 
-	return round(abs(Wall.testWall(v_xy_anchor=anchors, print_all=print_all)),2)
-
-def test():
-	MyMath=clMyMath()
-
-	Wall=clWall()
-	# Wall.testBeam()
-	Wall.testWall(print_all=False)
+	return round(abs(Wall.testWall(v_xy_anchor=anchors, bLoop=bLoop, print_all=print_all)),2)
 
 
 # from equalDistance import createEqualDistance
