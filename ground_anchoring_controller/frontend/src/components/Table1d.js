@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 let anchorsMap ;
 let anchorsArray;
-let highMoment=0, default_alpha=0.5, default_beta = 1.0 , default_gamma=0.000001;
+let highMoment=0, default_alpha=0.01, default_beta = 1.0 , default_gamma=0.000001;
 
 const Table1d = (acnhors_data) => {
     const height2 = localStorage.getItem("height");

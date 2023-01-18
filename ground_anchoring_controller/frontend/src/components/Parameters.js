@@ -95,7 +95,7 @@ const Parameters = () => {
         console.log("checkValues");
         if(anchorsPara.numbersOfAnchors >= 0 && anchorsPara.numbersOfAnchors <= 30 && 
             wallPara.height <= 30 && wallPara.height > 0 &&
-            wallPara.width <= 150 && wallPara.width > 0 &&
+            wallPara.width <= 30 && wallPara.width > 0 &&
             wallPara.angle >= 0 && wallPara.angle <= 60){
                 wallParametersRequest();
                 return true;        
@@ -274,7 +274,7 @@ const Parameters = () => {
                             <div className="col-12">     
                                 <InputGroup className="mb-3" >
                                     <InputGroup.Text id="basic-addon7">Width ( m )</InputGroup.Text>
-                                    <Form.Control  type="number" placeholder="maximum 150m" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeWidth}/>
+                                    <Form.Control  type="number" placeholder="maximum 30m" aria-label="numbers" aria-describedby="basic-addon1" onChange={handleChangeWidth}/>
                                 </InputGroup>
                             </div>
                         </div>
@@ -316,7 +316,7 @@ const Parameters = () => {
                         * The maximum height is 30m
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
-                        * The maximum width is 150m
+                        * The maximum width is 30m
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 1 }} style={{color:"white"}}>
                         * Angle should be betwen 0-60
