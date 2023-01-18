@@ -962,6 +962,9 @@ class clWall():
 				if b:
 					fig.colorbar(pc, ax=ax)
 				fig.savefig(sTitle+'.jpg')
+				
+			plt.close()
+			plt.clf()
 
 class clMyMath():
 	# נוסחה לנגזרת: 
@@ -1061,7 +1064,8 @@ class clMyMath():
 		#print(str(locals()))
 		#print(str(vx))
 		n=len(vx)
-		plt.close()
+		plt.close('all')
+
 		plt.title(sTitle)
 		
 		#drew axis x
@@ -1168,76 +1172,7 @@ class clMyMath():
 				vcf.append(cf)
 			vvcf.append(vcf)
 		return vvcf
-	def test1(self):
-		vx=[0]
-		n=100
-		xMax=1
-		kMax=4
-		dx=float(1)/n
-		for ix in range(n):
-			vx.append(xMax*dx*(ix+1))
-		x_data = np.array(vx)
-		
-		vvy=[]
-		vy_data=[]
-		for k in range(kMax+1):
-			vy=[]
-			for x in vx:
-				vy.append(x**k)
-			vvy.append(vy)
-			y_data = np.array(vy)
-			vy_data.append(y_data)
-		#for k in range(kMax+1):
-		#	plt.plot(x_data,vy_data[k], label = "y"+str(k))
-
-		dx=float(1)/n
-		vvy_data=[]
-		for k1 in range(kMax+1):
-			vy_data=[]
-			for k in range(kMax+1):
-				vy=vvy[k]
-				#print("vy="+str(vy))
-				MyMath.y_start(vx,vy)
-				vyk=[]
-				for x in vx[:len(vx)-k1]:
-					yk=MyMath.fk(x,MyMath.y_get,dx,k1)
-					vyk.append(yk)
-				#print("vyk="+str(vyk))
-				y_data = np.array(vyk)
-				x_data=np.array(vx[:len(vx)-k1])
-				if k==kMax:
-					plt.plot(x_data,y_data, label = "y"+str(k)+str(k1))
-					print("vyk="+str(vyk))
-				vy_data.append(y_data)
-			vvy_data.append(vy_data)
-		
-		plt.legend()
-		#plt.show()
-		
-			#x1_data,y1_data,x4_data,y4_data=
-		
-		#plt.plot(x_data,y_data, label = "w")
-		#plt.plot(x_data,y2_data, label = "w''")
-		#plt.plot([0,h],[0,0], label = "x")
-		#lines:
-		#https://www.w3schools.com/python/matplotlib_line.asp
-		#points:
-		#plt.plot(xpoints, ypoints, 'o')
-		#line with markers
-		#https://www.w3schools.com/python/matplotlib_markers.asp
-		#plt.plot(ypoints, marker = 'o')
-		#plt.plot(ypoints, marker = '*')
-		
-		
-		#plt.plot(x1_data,y1_data, label = "w'")
-		#plt.plot(x4_data,y4_data, label = "w''''")
-
-		#x_data,y_data=BeamDef.vw_make()
-		#plt.plot(x_data,y_data, label = "wDiff")
-
-		#plt.legend()
-		#plt.show()
-		pass
+	
 	def ixGeneral_get(self,x,xMin,xMax,n):
 		if x<=xMin:
 			return xMin
