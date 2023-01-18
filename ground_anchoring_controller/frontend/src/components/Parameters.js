@@ -16,6 +16,7 @@ function simulateNetworkRequest() {
 }
 const Parameters = () => {
     const [dimensionalType, setDimensionalType] = useState(localStorage.getItem("dimensionalType2"));
+    const [cycleWall, setCycleWall] = useState(false);
     const [isLoading, setLoading] = useState(false);
     // new
     const [isEqualDistance2d, setEqualDistance2d] = useState(false);
@@ -81,6 +82,7 @@ const Parameters = () => {
             number_of_anchors: anchorsPara.numbersOfAnchors ,
             anchorsInRow: anchorsPara.anchorsInRow,
             anchorsInCol: anchorsPara.anchorsInCol,
+            bloop: cycleWall
           }),
         };
         await fetch("/api/create-wall", requestOptions)
@@ -288,6 +290,25 @@ const Parameters = () => {
                             </InputGroup>
                         </div>
                     </div>
+                    {dimensional2d &&
+                        <div>
+                            <h6 style={{color:"white"}}>Make the wall acts like cycle</h6>
+                            <div className="radio-btn-container" >
+                                <div className="radio-btn" onClick={() => { setCycleWall(false);}} style={{
+                                    background: cycleWall === false ? '#0080FF' : '#0891b2'}}>
+                                    <input type="radio" value={cycleWall} name="cycleWall" checked={cycleWall === false}/>
+                                    No
+                                </div>
+                                <div className="radio-btn" onClick={() => {setCycleWall(true); }} style={{
+                                    background: cycleWall === true ? '#0080FF' : '#0891b2'}}>
+                                    <input type="radio" value={cycleWall} name="cycleWall" checked={cycleWall === true} />
+                                    Yes 
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
                 </div>
                
             </div>
