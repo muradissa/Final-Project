@@ -296,27 +296,25 @@ class clWall():
 				vw2.append(w2)
 			return vw2
 		def xy_get(self,v_x_anchor,nPoints=300,bGraph=True):
-			
 			vvc = self.vvc_get(v_x_anchor)
-			
+
 			x_data = np.linspace(0,self.xMax,nPoints+1)
 			vx=x_data.tolist()
-			
+
 			vy=self.vw_get(vx,vvc,v_x_anchor)
 			y_data = np.array(vy)
-			
-			if bGraph:
-				#accurate graph for w'''' only, more accurate calculation than by points only
-				MyMath=clMyMath()
-				nPoints=10000
-				x_data0 = np.linspace(0,self.xMax,nPoints+1)
-				vx=x_data0.tolist()
-				def ff(x):
-					return self.w_get(x,vvc,v_x_anchor)
 
-				#vx=[0,1,2,3]
-				vxNoNeedHighestDiff=v_x_anchor
-				MyMath.graphDir(vx,f=ff,vy=[],kMin=4,kMax=4,dx=0.005,bMoreMax=True,sf="W",sTitle="Analytic solution: accurate w, numerical w''''' good for dx>0.005",vxNoNeedHighestDiff=vxNoNeedHighestDiff)#for smaller dx (0.001 and less) it is not enough accuracy: dx^4 is 10^(-12) 
+			# if bGraph:
+			# 	#accurate graph for w'''' only, more accurate calculation than by points only
+			# 	MyMath=clMyMath()
+			# 	nPoints=10000
+			# 	x_data0 = np.linspace(0,self.xMax,nPoints+1)
+			# 	vx=x_data0.tolist()
+			# 	def ff(x):
+			# 		return self.w_get(x,vvc,v_x_anchor)
+			#
+			# 	vxNoNeedHighestDiff=v_x_anchor
+			# 	MyMath.graphDir(vx,f=ff,vy=[],kMin=4,kMax=4,dx=0.005,bMoreMax=True,sf="W",sTitle="Analytic solution: accurate w, numerical w''''' good for dx>0.005",vxNoNeedHighestDiff=vxNoNeedHighestDiff)#for smaller dx (0.001 and less) it is not enough accuracy: dx^4 is 10^(-12) 
 			
 			MomentMax, xArgMax = self.MomentMax_get(0.1,vvc,v_x_anchor)
 			
@@ -508,22 +506,19 @@ class clWall():
 		if index==5.5:#0.3 mm, MomentMax=0.027*10^6
 			vx_anchors = [2,4,6,8,10]
 		return vx_anchors
-	def testBeam(self, anchors, analytical=True, drew_graph=True):
+	def testBeam(self, anchors, both=False, drew_graph=True):
 		self.start()
-
 		MyMath=clMyMath()
+		
+		BeamAnalytical=self.clBeamAnalytical(self)
+		x_data, y_data, max_moment=BeamAnalytical.xy_get(anchors, 100, bGraph=drew_graph)
+		MyMath.testSol(x_data, y_data, kMin=0, kMax=4,sf="w", drew_graph=drew_graph, sTitle="Analytic solution: for selected points only (no w''''in anchors and in the end)", vxNoNeedHighestDiff=anchors)
 
-		if analytical:
-			BeamAnalytical=self.clBeamAnalytical(self)
-			x_data, y_data, max_moment=BeamAnalytical.xy_get(anchors, 100, bGraph=drew_graph)
-			MyMath.testSol(x_data, y_data, kMin=0, kMax=4,sf="w", drew_graph=drew_graph, sTitle="Analytic solution: for selected points only (no w''''in anchors and in the end)", vxNoNeedHighestDiff=anchors)
-
-		# else:
-		# 	BeamNumerical=self.clBeamNumerical(self,1000)#,4)#10000)
-		# 	BeamNumerical.vvIndex_make(anchors)
-		# 	x_data,y_data=BeamNumerical.vw_make(print_to_file=drew_graph)
-		# 	max_moment, x_place = BeamNumerical.MomentMax_get()
-		# 	MyMath.testSol(x_data,y_data,kMin=0,kMax=4,sf="w", drew_graph=drew_graph, sTitle="Numerical solution: for selected points only (no w''''in anchors and in the end)",vxNoNeedHighestDiff=anchors)
+		if both:
+			BeamNumerical=self.clBeamNumerical(self,1000)
+			BeamNumerical.vvIndex_make(anchors)
+			x_data,y_data=BeamNumerical.vw_make(print_to_file=drew_graph)
+			MyMath.testSol(x_data,y_data,kMin=0,kMax=4,sf="w", drew_graph=drew_graph, sTitle="Numerical solution: for selected points only (no w''''in anchors and in the end)",vxNoNeedHighestDiff=anchors, file_name="numerical_plot.jpg")
 
 		return max_moment
 
@@ -544,13 +539,13 @@ class clWall():
 		if index==10.5:
 			v_xy_anchor=[[3,10],[4,10],[5,10],[6,10],[7,10]]
 		return v_xy_anchor
-	def testWall(self, v_xy_anchor=[], bLoop=False, print_all=True):
-		WallNumerical=self.clWallNumerical(self,nx=100,ny=100)#,nx=4,ny=4)#,nx=50,ny=50)#
-		# vvcc=WallNumerical.vvcc_get()
-		# v_xy_anchor=self.v_xy_anchor_get(0)
 
-		# if the borders acts like ground - False
-		# True -> the wall acts cycle
+	#  bloop: False -> if the borders acts like ground 
+	#         True -> the wall acts cycle
+	def testWall(self, v_xy_anchor=[], bLoop=False, print_all=True):
+
+		WallNumerical=self.clWallNumerical(self,nx=100,ny=100)#,nx=4,ny=4)#,nx=50,ny=50)#
+		
 		
 		WallNumerical.vvvIndex_make(v_xy_anchor,bLoop)
 		WallNumerical.vvw_make(bLoop, print_all)
@@ -1057,9 +1052,7 @@ class clMyMath():
 			vvx.append(vxk)
 			vvy.append(vyk)
 		return vvx,vvy
-	def graphDir(self,vx,f=None,vy=None,kMin=0,kMax=4,dx=None,bMoreMax=False,sf="f",sTitle="sTitle",vxNoNeedHighestDiff=[]):
-		#print(str(locals()))
-		#print(str(vx))
+	def graphDir(self,vx,f=None,vy=None,kMin=0,kMax=4,dx=None,bMoreMax=False,sf="f",sTitle="sTitle",vxNoNeedHighestDiff=[], file_name="plot.jpg"):
 		n=len(vx)
 		plt.close()
 		plt.title(sTitle)
@@ -1076,9 +1069,9 @@ class clMyMath():
 		if f is None:
 			self.y_start(vx,vy)
 			f0=self.y_get
-		#print("vx="+str(vx))
-		#print("vy="+str(vy))
+
 		vvx,vvy=self.vvx_vvy_dk_get(f=f0,vx=vx,kMax=kMax,dx=dx,bMoreMax=bMoreMax)
+
 		for k in range(kMin,kMax+1):
 			vxk=vvx[k]
 			vy=vvy[k]
@@ -1087,8 +1080,10 @@ class clMyMath():
 				if k==kMax and len(vxNoNeedHighestDiff)>0:
 					if dx is None:
 						dx=vxk[1]-vxk[0]
+
 					vxkPP=[]
 					vyPP=[]
+
 					for i in range(len(vxk)):
 						x=vxk[i]
 						y=vy[i]
@@ -1097,34 +1092,36 @@ class clMyMath():
 							if x<xN and x+kMax*dx>=xN:
 								bOk=False
 								break
+
 						if bOk:
 							vxkPP.append(x)
 							vyPP.append(y)
+
 					vxk=vxkPP
 					vy=vyPP
 		
 			x_data = np.array(vxk)
 			y_data = np.array(vy)
+
 			#"bb''''"
 			s=sf
+
 			for i in range(k):
 				s+="'"
 			plt.plot(x_data,y_data, label = s)
+
 		plt.legend()
-		plt.savefig("plot.jpg")
+		plt.savefig(file_name)
 		plt.close()
 
-
-	def testSol(self,x_data,y_data,kMin=0,kMax=4,sf="f", drew_graph=True,sTitle="sTitle",vxNoNeedHighestDiff=[]):#x1_data,y1_data
+	def testSol(self,x_data,y_data,kMin=0,kMax=4,sf="f", drew_graph=True,sTitle="sTitle",vxNoNeedHighestDiff=[], file_name="plot.jpg"):#x1_data,y1_data
 		MyMath=clMyMath()
 		vx=x_data.tolist()#ordered, equal dist
 		n=len(vx)
 		vy=y_data.tolist()
 
 		if drew_graph:
-			MyMath.graphDir(vx,f=None,vy=vy,kMin=kMin,kMax=kMax,dx=None,bMoreMax=False,sf=sf,sTitle=sTitle,vxNoNeedHighestDiff=vxNoNeedHighestDiff)
-		
-		return
+			MyMath.graphDir(vx,f=None,vy=vy,kMin=kMin,kMax=kMax,dx=None,bMoreMax=False,sf=sf,sTitle=sTitle,vxNoNeedHighestDiff=vxNoNeedHighestDiff, file_name=file_name)
 
 	def vcf_get(self,k):#binomial coeffecients with sign (for numerical calculation of derivatives)
 		#starting from x, x+dx, x+2*dx
@@ -1316,24 +1313,13 @@ class clMyMath():
 			ix+=1
 		return argMin,argMax
 
-def start_euller_beam(h, deg, anchors, save_plot=True):
+def start_euller_beam(h, deg, anchors, both=False, save_plot=True):
 	Wall=clWall(yMax=h, angleFromVerticalGrad=deg)
 
-	return  round(abs(Wall.testBeam(anchors=anchors, drew_graph=save_plot)), 2) # max moment
+	return  round(abs(Wall.testBeam(anchors=anchors, both=both, drew_graph=save_plot)), 2) # max moment
 
 
 def start_wall_test(width, height, anchors, bLoop, print_all):
 	Wall=clWall(xMax=width, yMax=height)
 
 	return round(abs(Wall.testWall(v_xy_anchor=anchors, bLoop=bLoop, print_all=print_all)),2)
-
-
-# from equalDistance import createEqualDistance
-# anchors = createEqualDistance(width=10, height=6, number_of_points_row=3, number_of_points_col=3)
-# anchors_xy = []
-# for anchor in anchors:
-# 	anchors_xy.append([anchor["x"], anchor["y"]])
-
-# print(anchors_xy)
-
-# print(start_wall_test(width=10, height=6, anchors=anchors_xy, print_all=True))
