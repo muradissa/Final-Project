@@ -17,6 +17,9 @@ const Table1d = (acnhors_data) => {
     const label = { inputProps: { 'aria-label': 'Switch demo' } };
     const [switchButton,setSwitchButton] = useState(true);
     const [img, setImg] = useState();
+    const [img2, setImg2] = useState();
+    const [GraphNum, setGraphNum] = useState("1");
+
 
     const fetchImage = async () => {
       const requestOptions = {
@@ -29,6 +32,11 @@ const Table1d = (acnhors_data) => {
       .then((response) => response.json())
       .then((data) => {
         setImg(data);
+      });
+      const res2 = await fetch("/api/plot-moment-numerical",requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setImg2(data);
       });
     };
 
@@ -155,7 +163,7 @@ const Table1d = (acnhors_data) => {
       <div className="App" >
         <div className="row">
           <div className="col-6" >
-            <div className="row"  style={{ marginLeft:'35%',alignItems:"center"}}>
+            {/* <div className="row"  style={{ marginLeft:'35%',alignItems:"center"}}>
               <div >
                 <Stack direction="row" spacing={1} alignItems="center" size="lg" style={{ padding:"5px",paddingLeft:"00px"}} >
                   <Typography style={{color:"white"}}>Plot</Typography>
@@ -163,16 +171,35 @@ const Table1d = (acnhors_data) => {
                   <Typography style={{color:"white"}}>Wall</Typography>
                 </Stack> 
               </div>
-            </div>
+            </div> */}
+            <div className="row"  style={{alignItems:"center"}}>
+                <div className="radio-btn-container" style={{marginBottom:"0"}}>
+                  <div className="radio-btn" onClick={() => { setGraphNum("1");}} style={{
+                      background: GraphNum === "1" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "1"}/>
+                      Wall
+                  </div>
+                  <div className="radio-btn" onClick={() => {setGraphNum("2"); }} style={{
+                      background: GraphNum === "2" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "2"} />
+                      Analytic
+                  </div>
+                  <div className="radio-btn" onClick={() => { setGraphNum("3");}} style={{
+                      background: GraphNum === "3" ? '#0080FF' : '#0891b2'}}>
+                      <input type="radio" value={GraphNum} name="optimizationType" checked={GraphNum === "3"}/>
+                      Numerical
+                  </div>
+                </div>
+              </div>
             <div className="row">
-              { switchButton &&
+              { GraphNum === '1' &&
                 <div className="col-7" >
                   <table style={{ marginLeft:'auto', marginRight:'auto',}}>
                     {rowSequre()}   
                   </table>
                 </div>
               }
-              { switchButton &&
+              { GraphNum === '1' &&
                 <div className="col-4" style={{ alignItems:"center",paddingTop:"50px"}}>
                     <div style={{ padding:"6px",border: '2px solid #ccc',borderRadius:'15px' }}>
                       <div style={{padding:"2px",backgroundColor:"green" ,color:"white",textAlign:"center",borderRadius:'10px'}}>Anchor</div>
@@ -182,10 +209,16 @@ const Table1d = (acnhors_data) => {
                 </div>
               }
               
-              { !switchButton &&
+              { GraphNum === '2' &&
                 <div >
                   {/* <img src={img} alt="icons" /> */}
                   <img src={`data:image/jpg;base64,${img}`} style={{width:"100%"}} />
+                </div>
+              }
+              { GraphNum === '3' &&
+                <div >
+                  {/* <img src={img} alt="icons" /> */}
+                  <img src={`data:image2/jpg;base64,${img2}`} style={{width:"100%"}} />
                 </div>
               }
             </div>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreatAnchorsView, CreatWallView, EnterParametersView, getHighMoment, getHighMoment2d, getImage1, getImage2, getImage3, getImage4, getImage5, getImage6, getImage7, main, simulationQuality, startSimulation ,getImage
+from .views import CreatAnchorsView, CreatWallView, EnterParametersView, getHighMoment, getHighMoment2d, getImage1, getImage2, getImage3, getImage4, getImage5, getImage6, getImage7, main, simulationQuality, startSimulation ,getImage,getImageNumerical
 from .views import AnchorView,WallView
 
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('plot-moment5',getImage5.as_view()),
     path('plot-moment6',getImage6.as_view()),
     path('plot-moment7',getImage7.as_view()),
+    path('plot-moment-numerical',getImageNumerical.as_view()),
     #path('start',CreatWallView.as_view()),
    
 ]

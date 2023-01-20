@@ -263,6 +263,12 @@ class getImage7(APIView):
         with open('Mxy.jpg', "rb") as image_file:
             image_data = base64.b64encode(image_file.read()).decode('utf-8')
         return Response(image_data, status=status.HTTP_200_OK)
-       
+    
+
+class getImageNumerical(APIView):
+    def post(self , request , format=None):
+        with open('numerical_plot.jpg', "rb") as image_file:
+            image_data = base64.b64encode(image_file.read()).decode('utf-8')
+        return Response(image_data, status=status.HTTP_200_OK)       
     
             

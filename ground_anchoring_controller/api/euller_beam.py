@@ -506,7 +506,7 @@ class clWall():
 		if index==5.5:#0.3 mm, MomentMax=0.027*10^6
 			vx_anchors = [2,4,6,8,10]
 		return vx_anchors
-	def testBeam(self, anchors, both=False, drew_graph=True):
+	def testBeam(self, anchors, both=True, drew_graph=True):
 		self.start()
 		MyMath=clMyMath()
 		
@@ -543,18 +543,16 @@ class clWall():
 	#  bloop: False -> if the borders acts like ground 
 	#         True -> the wall acts cycle
 	def testWall(self, v_xy_anchor=[], bLoop=False, print_all=True):
-
 		WallNumerical=self.clWallNumerical(self,nx=100,ny=100)#,nx=4,ny=4)#,nx=50,ny=50)#
-		
-		
 		WallNumerical.vvvIndex_make(v_xy_anchor,bLoop)
 		WallNumerical.vvw_make(bLoop, print_all)
 		if print_all:
-			WallNumerical.drewGraphs(v_xy_anchor)
-		
+			WallNumerical.drewGraphs(v_xy_anchor)	
 		#print(WallNumerical.MomentMax_wall_get())
 	
 		return WallNumerical.MomentMax_wall_get()
+
+
 	class clWallNumerical():
 		def __init__(self,Wall,nx=10,ny=10, print_all=True):
 			self.Wall = Wall
@@ -576,6 +574,8 @@ class clWall():
 			self.vvw = [[0 for col in range(ny+1)] for row in range(nx+1)]
 			self.dx=float(self.xMax)/nx
 			self.dy=float(self.yMax)/ny
+   
+   
 		def vvcc_get(self):
 			#D (w_xxxx(iv)(x,y)+2w_xxyy(iv)(x,y)+w_yyyy(iv)(x,y))=q(x,y)
 			#vvcc are coef for w_xxxx(iv)(x,y)+2w_xxyy(iv)(x,y)+w_yyyy(iv)(x,y)
@@ -603,18 +603,24 @@ class clWall():
 						vvcc[kx][ky]+=2*float(vvcf[kx][ky])/((self.dx**2)*(self.dy**2))
 				#print(str(vvcc))
 			return vvcc
+
+
 		def ix_get(self,x):
 			if x<=0:
 				return 0
 			if x>=self.xMax:
 				return len(self.vx)-1
 			return int((float(x)/self.xMax)*(len(self.vx)-1))
+
+
 		def iy_get(self,y):
 			if y<=0:
 				return 0
 			if y>=self.yMax:
 				return len(self.vy)-1
 			return int((float(y)/self.yMax)*(len(self.vy)-1))
+
+
 		def vvvIndex_make(self,v_xy_anchor,bLoop):
 			#v_xy_anchor - dist at least 0.1, 0.1<x_anchor<=xMax-0.1, 0.1<y_anchor
 			#y=0, y'=0 => y(x+dx)=0
@@ -688,11 +694,15 @@ class clWall():
 					self.vvvIndex[ix][iy].append(-1)#w=0, no need w''''
 				else:
 					self.vvvIndex[ix][ny-2].append(-1)#w=0, no need w'''' (to have correct number of equations)
+     
+     
 		def w_get(self,x,y):
 			#use after vw_make()
 			ix=self.ix_get(x)
 			iy=self.iy_get(y)
 			return self.vvw[ix][iy]
+
+
 		def w2_get(self,ix,iy,index):
 			MyMath=clMyMath()
 			if index==1:#w''xx
@@ -737,6 +747,7 @@ class clWall():
 			w2+=c*self.vvw[ix-i0][iy-j0]
 			return w2
 
+
 		def Moment_get(self,ix,iy,index):
 			#Mxx(x,y)=-D(w’’xx(x,y)-v w’’yy(x,y))
 			#Myy(x,y)=-D(w’’yy(x,y)-v w’’xx(x,y))
@@ -747,6 +758,7 @@ class clWall():
 				return -self.Wall.dd*(self.w2_get(ix,iy,2)-self.Wall.v*self.w2_get(ix,iy,1))
 			return -self.Wall.dd*(1-self.Wall.v)*self.w2_get(ix,iy,3)
 
+
 		def MomentMax_wall_get(self):
 			m_max = 0
    
@@ -756,6 +768,7 @@ class clWall():
 					if abs(m) > m_max:
 						m_max = abs(m)
 			return m_max
+
 
 		def MomentMax_get(self):#MomentMax,xArgMax=
 			MyMath=clMyMath()
@@ -781,6 +794,8 @@ class clWall():
 				ix+=1
 			# print("MomentMax="+str(MomentMax)+", xArgMax="+str(xArgMax))
 			return MomentMax,xArgMax
+
+
 		def vvw_make(self, bLoop, print_all):
 			nx=len(self.vx)-1
 			ny=len(self.vy)-1
@@ -857,11 +872,14 @@ class clWall():
 			if print_all:
 				MyMath.printMatrixToFile(self.vvw,"ww.txt")
 			
+   
 		def drewGraphs_XY_get(self):#X, Y =
 			#N = 100
 			#X, Y = np.mgrid[-3:3:complex(0, N), -2:2:complex(0, N)]
 			X, Y = np.mgrid[self.vx[0]:self.vx[len(self.vx)-1]:complex(0, len(self.vx)), self.vy[0]:self.vy[len(self.vy)-1]:complex(0, len(self.vy))]
 			return X,Y
+
+
 		def drewGraphs_Z_w_get(self):#Z=
 			#Z=X+Y
 			Z=[]
@@ -871,6 +889,8 @@ class clWall():
 					vZ.append(self.vvw[ix][iy])
 				Z.append(vZ)
 			return Z
+
+
 		def drewGraphs_Z_w2_get(self,index):#Z=
 			#Z=X+Y
 			vvZ=[]
@@ -885,6 +905,8 @@ class clWall():
 					vZ.append(z)
 				vvZ.append(vZ)
 			return vvZ
+
+
 		def drewGraphs_subraph(self,X,Y,Z,v_xy_anchor,sTitle,ax):
 			cmap = cm.coolwarm
 			MyMath=clMyMath()
@@ -918,9 +940,6 @@ class clWall():
 			return pc,Zmin<Zmax
 		def drewGraphs(self,v_xy_anchor=[]):
 			MyMath=clMyMath()
-			
-			
-			
 			X, Y =self.drewGraphs_XY_get()
 			for i in range(1+3+3):
 				fig, ax = plt.subplots()
