@@ -16,6 +16,7 @@ from .GradientDescent1d import *
 
 
 anchors1 = []
+manual_anchor = []
 wall1 = []
 typeParameters =[]
 optimizationType = ''
@@ -101,11 +102,11 @@ class CreatAnchorsView(APIView):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
         anchors = json.loads(request.data['anchors'])
-        global anchors1
-        anchors1=[]
+        global manual_anchor
+        manual_anchor=[]
         
         for index in range(len(anchors)):
-            anchors1.append({
+            manual_anchor.append({
                 'id':anchors[str(1+index)]['code'],
                 'x': anchors[str(1+index)]['x'],
                 'y':anchors[str(1+index)]['y']})
@@ -130,9 +131,7 @@ class startSimulation(APIView):
     
     def post(self , request , format=None):
         
-        global strategy_type , anchors1 ,anchorsInRow, anchorsInCol
-        global quality1
-
+        global strategy_type , anchors1 ,anchorsInRow, anchorsInCol, manual_anchor, quality1
         anchors1 = []
 
 ###############################################################################################################################
@@ -159,7 +158,7 @@ class startSimulation(APIView):
             # input(f"number of anchors = {number_Of_Anchors1}")
             #Manually
             if(strategy_type == '1'):
-                result = anchors1
+                result = manual_anchor
             
             #Equal Distance 
             elif(strategy_type == '2'): # number_of_anchors 
