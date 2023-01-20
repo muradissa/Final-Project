@@ -37,9 +37,6 @@ bloop_global = False
 
 # Create your views here.
 
-def main(request):
-    return HttpResponse("Hello")
-
 class AnchorView(generics.ListAPIView):
     queryset = Anchor.objects.all()
     serializer_class = AnchorSerializer
@@ -47,12 +44,6 @@ class AnchorView(generics.ListAPIView):
 class WallView(generics.ListAPIView):
     queryset = Wall.objects.all()
     serializer_class = WallSerializer
-    
-class CreatAnchorView(APIView):
-    
-    serializer_class = CreateAnchorSerializer
-    def post(self,request,format=None):
-        pass
     
 class CreatWallView(APIView):  
     serializer_class = CreateWallSerializer
@@ -94,8 +85,7 @@ class CreatWallView(APIView):
                 wall = Wall(host =host , height=height , width=width , angle=angle , number_of_anchors=number_of_anchors )
                 wall.save()
             return Response(WallSerializer(wall).data, status=status.HTTP_201_CREATED)
-        
-        
+
 class CreatAnchorsView(APIView):   
     serializer_class = CreateAnchorSerializer
     def post(self , request , format=None):
@@ -113,7 +103,6 @@ class CreatAnchorsView(APIView):
             
         return Response("ok", status=status.HTTP_200_OK)
 
-
 class EnterParametersView(APIView):   
     serializer_class = ParametersSerializer
     def post(self , request , format=None):
@@ -125,7 +114,6 @@ class EnterParametersView(APIView):
         strategy_type = request.data['strategyType']
         dimensional_type = request.data['dimensionalType']
         return Response("ok", status=status.HTTP_200_OK)
-    
 
 class startSimulation(APIView):
     

@@ -1,11 +1,10 @@
 from django.urls import path
-from .views import CreatAnchorsView, CreatWallView, EnterParametersView, getHighMoment, getHighMoment2d, getImage1, getImage2, getImage3, getImage4, getImage5, getImage6, getImage7, main, simulationQuality, startSimulation ,getImage,getImageNumerical
+from .views import CreatAnchorsView, CreatWallView, EnterParametersView, getHighMoment, getHighMoment2d, getImage1, getImage2, getImage3, getImage4, getImage5, getImage6, getImage7, simulationQuality, startSimulation ,getImage,getImageNumerical
 from .views import AnchorView,WallView
 
 
 
 urlpatterns = [
-    path('', main),
     path('anchors', AnchorView.as_view()),
     path('wall', WallView.as_view()),
     path('create-wall',CreatWallView.as_view()),
