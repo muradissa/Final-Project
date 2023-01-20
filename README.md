@@ -9,10 +9,10 @@ Reliability of the results are studied from the comparisons of the obtained resu
 
 
 # Install
-pip install django djangorestframework
-django-admin startproject ground_anchoring_controller
-cd ground_anchoring_controller
-django-admin startapp api
+pip install django djangorestframework ,
+django-admin startproject ground_anchoring_controller ,
+cd ground_anchoring_controller ,
+django-admin startapp api ,
 
 line code => go to ground_anchoring_controller => settings.py => inside INSTALLED_APPS  add  = 'api.apps.ApiConfig'
 line code => go to ground_anchoring_controller => settings.py => inside INSTALLED_APPS  add  = 'rest_framework'
