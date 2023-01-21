@@ -3,9 +3,6 @@ from __future__ import division  #to enable normal floating division
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-import matplotlib.colors as colors
-import matplotlib.cbook as cbook
 from matplotlib import cm
 
 class clWall():

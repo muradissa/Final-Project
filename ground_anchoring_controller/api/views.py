@@ -172,7 +172,7 @@ class startSimulation(APIView):
                     anchors1.append({'id':index+1, 'x': 0, 'y':x_anchors[index]})
                 result = anchors1
                 print("result 2 = ",result)
-        
+
         return Response(json.dumps(result), status=status.HTTP_200_OK)
     
 class simulationQuality(APIView):
