@@ -16,7 +16,7 @@ pip install numpy<br/>
 
 # frontend 
 <br/>
-⌨ NPM ⌨  => npm i install
+⌨ NPM ⌨  => npm i 
 
 # Run
 python .\manage.py runserver
